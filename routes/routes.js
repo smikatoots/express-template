@@ -49,6 +49,7 @@ router.post('/messages/:friendid', function(req, res) {
   var anonymousSender = req.body.anonymous
   if (filter.clean(content).includes('~')) {
     // emit dirty event
+    socket.emit('dirtyMessage', )
   }
   if (sentiment(content).score < 5) {
     // emit non-positive event
