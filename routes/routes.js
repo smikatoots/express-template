@@ -102,13 +102,30 @@ io.on('connection', function(socket) {
     var content = data.content;
     if (filter.clean(content).includes('~')) {
       // emit dirty event
-      socket.emit("dirtyMessage")
+      socket.emit("dirtyReply")
     }
     if (sentiment(content).score < 5) {
       // emit non-positive event
-      socket.emit("negativeMessage")
+      socket.emit("negativeReply")
     }
-
+    Thread.findById(threadid, function(err, thread) {
+      if (err) {
+        console.log("Could not identify thread to post reply for", err)
+      } else if (!thread) {
+        console.log("Invalid thread id")
+      } else {
+        new Message({
+          sender: req.user._id,
+          receiver: thread.participant2,
+          content: content,
+          createdAt: new Date(),
+          read: false
+        }).save(function(err, message) {
+          thread.replies.push(message)
+          socket.emit('newReply', message)
+        })
+      }
+    })
 
   })
 })
