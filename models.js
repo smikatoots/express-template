@@ -56,5 +56,7 @@ var Message = mongoose.model('Message', messageSchema);
 var Thread = mongoose.model
 
 module.exports = {
-    User:User
+    User:User,
+    Message:Message,
+    Thread:Thread
 };
