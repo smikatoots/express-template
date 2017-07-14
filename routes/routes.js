@@ -58,7 +58,7 @@ router.post('/messages/:friendid', function(req, res) {
     } else {
       new Thread({
         participant1: req.user._id,
-        anonymousSender: anonymousSender,
+        anonymousSender: anonymousSender
         participant2: friendid,
         messages: [message]
       }).save(function(err) {
@@ -70,9 +70,9 @@ router.post('/messages/:friendid', function(req, res) {
   })
 })
 
-// router.get('/messages/:friendid') {
-//   res.render()
-// }
+router.get('/messages/:friendid') {
+  res.render()
+}
 
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
