@@ -19,7 +19,14 @@ module.exports = function(passport) {
     }
     var u = new models.User({
       username: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      birthday: req.body.birthday,
+      email: req.body.email,
+      location: req.body.location,
+      affiliation: req.body.affiliation,
+      friends: []
     });
     u.save(function(err, user) {
       if (err) {

@@ -7,7 +7,7 @@ var Filter = require('bad-words')
 var filter = new Filter({ placeHolder: '~'});
 var sentiment = require('sentiment')
 
-var http = require('http').Server(app);
+var http = require('http').Server(router);
 var io = require('socket.io')(http);
 
 io.on('connection', function(socket) {
@@ -25,9 +25,11 @@ io.on('connection', function(socket) {
         var anonymousSender = data.anon
         if (filter.clean(content).includes('~')) {
           // emit dirty event
+          socket.emit("dirtyMessage")
         }
         if (sentiment(content).score < 5) {
           // emit non-positive event
+          socket.emit("negativeMessage")
         }
 
         new Message({
@@ -56,15 +58,9 @@ io.on('connection', function(socket) {
             })
           }
         })
-
-
-
       }
     })
-
   })
-
-
 })
 
 //////////////////// LANDING PAGE WITH OPTIONS FOR SIGNUP AND LOGIN ////////////////////////////////
@@ -102,6 +98,7 @@ router.get('/user', function(req, res) {
   })
 });
 
+<<<<<<< HEAD
 router.post('/messages/:friendid', function(req, res) {
   var friendid = req.params.friendid;
   var content = req.body.content;
@@ -141,6 +138,8 @@ router.post('/messages/:friendid', function(req, res) {
   })
 })
 
+=======
+>>>>>>> 423bc642bf6e03f2ab1f38c0f05dfec48ae5eaa9
 router.get('/messages/:friendid'), function(req, res) {
   res.render()
 }
