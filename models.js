@@ -20,7 +20,7 @@ var messageSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "User",
   },
-  reciever: {
+  receiver: {
     type: mongoose.Schema.ObjectId,
     ref: "User"
   },
@@ -39,16 +39,21 @@ var threadSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "User"
   },
-  messages: [{
+  firstMessage: {
     type: mongoose.Schema.ObjectId,
     ref: "Message"
-  }],
+  },
+  replies: [{
+    type: mongoose.Schema.ObjectId,
+    ref: "Message"
+  }]
 })
 
 
 
-User = mongoose.model('User', userSchema);
-Message = mongoose.model('Message', messageSchema);
+var User = mongoose.model('User', userSchema);
+var Message = mongoose.model('Message', messageSchema);
+var Thread = mongoose.model
 
 module.exports = {
     User:User

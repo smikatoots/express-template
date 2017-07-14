@@ -23,6 +23,8 @@
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "sendgrid": "^3.0.5",
+    "sentiment": "^4.0.0",
+    "socket.io": "^2.0.3",
     "twilio": "^2.9.1",
     "underscore": "^1.8.3"
   }
