@@ -1,23 +1,27 @@
+<head>
+    <link rel='stylesheet' href='/stylesheets/signup.css' />
+</head>
+
 {{#if error}}
-<div class="alert alert-danger" role="alert">
+<div>
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
   <span class="sr-only">Error:</span>
   {{error}}
 </div>
 {{/if}}
-<form method="POST" style="max-width: 400px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
-  <h3>Login</h3>
+<div id="signup-box">
+<form method="POST">
+  <h2>LOGIN</h2>
   <div class="form-group">
-    <label>Username</label>
-    <input type="text" name="username" class="form-control">
+    <input type="text" name="username" placeholder="Username">
   </div>
   <div class="form-group">
-    <label>Password</label>
-    <input type="password" name="password" class="form-control">
+    <input type="password" name="password" placeholder="Password">
   </div>
   <div class="form-group">
-    <button class="btn btn-success">Login</button>
-    <a class="btn btn-primary" href="/signup">Register</a>
+    <button class="btn signup-button">Login</button></br></br>
+    <a href="/signup">Not a user? Register.</a></br>
+    <a href="/">Learn more. </a>
   </div>
-  <a href="/">Not sure? Read more back on the landing page</a>
 </form>
+</div>
