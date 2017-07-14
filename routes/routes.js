@@ -45,7 +45,7 @@ router.post('/messages/:friendid', function(req, res) {
 
 })
 
-router.get('/messages/:friendid') {
+router.get('/messages/:friendid'), function(req, res) {
   res.render()
 }
 
