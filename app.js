@@ -28,6 +28,9 @@ var routes = require('./routes/routes');
 var auth = require('./routes/auth');
 var app = express();
 
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
 // view engine setup
 var hbs = require('express-handlebars')({
   defaultLayout: 'main',
@@ -85,7 +88,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
 ));
 
 app.use('/', auth(passport));
-app.use('/', routes);
+app.use('/', routes(io));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -119,7 +122,7 @@ app.use(function(err, req, res, next) {
 });
 
 var port = process.env.PORT || 3000;
-app.listen(port);
+http.listen(port);
 console.log('Express started. Listening on port %s', port);
 
 module.exports = app;
