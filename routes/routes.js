@@ -10,6 +10,41 @@ var sentiment = require('sentiment')
 var http = require('http').Server(router);
 var io = require('socket.io')(http);
 
+//////////////////// LANDING PAGE WITH OPTIONS FOR SIGNUP AND LOGIN ////////////////////////////////
+// Users who are not logged in can see these routes
+
+router.get('/', function(req, res, next) {
+  res.render('landing');
+});
+
+///////////////////////////// THE WALL /////////////////////////////
+
+router.use(function(req, res, next){
+  if (!req.user) {
+    res.redirect('/login');
+  } else {
+    return next();
+  }
+});
+
+//////////////////////////////// PRIVATE ROUTES ////////////////////////////////
+// Only logged in users can see these routes
+
+// home page with threads
+router.get('/user', function(req, res) {
+  var threads = [];
+  threads.push(Thread.find({participant2: req.user._id}).populate("participant1"));
+  threads.push(Thread.find({participant1: req.user._id}).populate("participant2"));
+  Promise.all(threads)
+  .then(function(threads) {
+    res.render('user', {
+      user: req.user,
+      received: threads[0],
+      sent: threads[1]
+    });
+  })
+});
+
 io.on('connection', function(socket) {
 
   socket.on('newMessage', function(data) {
@@ -61,42 +96,14 @@ io.on('connection', function(socket) {
       }
     })
   })
-})
 
-//////////////////// LANDING PAGE WITH OPTIONS FOR SIGNUP AND LOGIN ////////////////////////////////
-// Users who are not logged in can see these routes
+  socket.on('newReply', function(data) {
+    var threadid = data.threadid;
+    var content = data.content;
 
-router.get('/', function(req, res, next) {
-  res.render('landing');
-});
 
-///////////////////////////// THE WALL /////////////////////////////
-
-router.use(function(req, res, next){
-  if (!req.user) {
-    res.redirect('/login');
-  } else {
-    return next();
-  }
-});
-
-//////////////////////////////// PRIVATE ROUTES ////////////////////////////////
-// Only logged in users can see these routes
-
-// home page with threads
-router.get('/user', function(req, res) {
-  var threads = [];
-  threads.push(Thread.find({participant2: req.user._id}).populate("participant1"));
-  threads.push(Thread.find({participant1: req.user._id}).populate("participant2"));
-  Promise.all(threads)
-  .then(function(threads) {
-    res.render('user', {
-      user: req.user,
-      received: threads[0],
-      sent: threads[1]
-    });
   })
-});
+})
 
 router.get('/messages/:friendid'), function(req, res) {
   res.render()
