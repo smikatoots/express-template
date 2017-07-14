@@ -3,6 +3,7 @@ var router = express.Router();
 var models = require('../models');
 var app = require('../app');
 var User = models.User;
+var Message = models.Message;
 var Thread = models.User;
 var Filter = require('bad-words')
 var filter = new Filter({ placeHolder: '~'});
