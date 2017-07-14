@@ -34,12 +34,11 @@ var threadSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "User"
   },
-  participant1Anonymous: Boolean,
+  anonymousSender: Boolean,
   participant2: {
     type: mongoose.Schema.ObjectId,
     ref: "User"
   },
-  participant2Anonymous: Boolean,
   messages: [{
     type: mongoose.Schema.ObjectId,
     ref: "Message"
