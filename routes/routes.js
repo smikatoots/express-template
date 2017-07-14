@@ -49,11 +49,11 @@ module.exports = function(io) {
   io.on('connection', function(socket) {
 
     socket.on('newMessage', function(data) {
-      User.findOne({ username: data.username }, function(err, user) {
+      User.findOne({ username: data.receiver }, function(err, user) {
         if (err) {
           res.send(err)
         } else if (!user) {
-          socket.emit('badUser', data.username)
+          socket.emit('badUser', data.receiver)
         } else {
           var friendid = user._id
           var content = data.content;
@@ -78,6 +78,7 @@ module.exports = function(io) {
             if (err) {
               console.log("Error while sending message", err)
             } else {
+              console.log("Message: " + message)
               new Thread({
                 participant1: req.user._id,
                 anonymousSender: anonymousSender,
@@ -88,6 +89,7 @@ module.exports = function(io) {
                 if (err) {
                   console.log("Error while creating thread", err)
                 } else {
+                  console.log("Thread: " + thread)
                   // emit new message event
                   socket.emit('newMessage', thread)
                 }
