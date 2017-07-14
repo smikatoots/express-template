@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
+// var app = require('../app');
 var User = models.User;
 var Filter = require('bad-words')
 var filter = new Filter({ placeHolder: '~'});
@@ -125,7 +126,7 @@ router.post('/messages/:friendid', function(req, res) {
     } else {
       new Thread({
         participant1: req.user._id,
-        anonymousSender: anonymousSender
+        anonymousSender: anonymousSender,
         participant2: friendid,
         firstMessage: message,
         replies: []
