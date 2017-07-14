@@ -100,53 +100,18 @@ io.on('connection', function(socket) {
   socket.on('newReply', function(data) {
     var threadid = data.threadid;
     var content = data.content;
-
-
-  })
-})
-
-<<<<<<< HEAD
-router.post('/messages/:friendid', function(req, res) {
-  var friendid = req.params.friendid;
-  var content = req.body.content;
-  var createdAt = new Date();
-  var anonymousSender = req.body.anonymous
-  if (filter.clean(content).includes('~')) {
-    // emit dirty event
-  }
-  if (sentiment(content).score < 5) {
-    // emit non-positive event
-  }
-
-  new Message({
-    sender: req.user._id,
-    reciever: friendid,
-    content: content,
-    createdAt: createdAt,
-    read: false
-  }).save(function(err, message) {
-    if (err) {
-      console.log("Error while sending message", err)
-    } else {
-      new Thread({
-        participant1: req.user._id,
-        anonymousSender: anonymousSender,
-        participant2: friendid,
-        firstMessage: message,
-        replies: []
-      }).save(function(err) {
-        if (err) {
-          console.log("Error while creating thread", err)
-        } else {
-          // emit new message event
-        }
-      })
+    if (filter.clean(content).includes('~')) {
+      // emit dirty event
+      socket.emit("dirtyMessage")
     }
+    if (sentiment(content).score < 5) {
+      // emit non-positive event
+      socket.emit("negativeMessage")
+    }
+
   })
 })
 
-=======
->>>>>>> 423bc642bf6e03f2ab1f38c0f05dfec48ae5eaa9
 router.get('/messages/:friendid'), function(req, res) {
   res.render()
 }
