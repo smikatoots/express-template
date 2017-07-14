@@ -20,7 +20,7 @@ var messageSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "User",
   },
-  reciever: {
+  receiver: {
     type: mongoose.Schema.ObjectId,
     ref: "User"
   },
@@ -42,7 +42,7 @@ var threadSchema = mongoose.Schema({
   firstMessage: {
     type: mongoose.Schema.ObjectId,
     ref: "Message"
-  }
+  },
   replies: [{
     type: mongoose.Schema.ObjectId,
     ref: "Message"

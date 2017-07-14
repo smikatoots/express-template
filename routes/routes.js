@@ -6,6 +6,65 @@ var Filter = require('bad-words')
 var filter = new Filter({ placeHolder: '~'});
 var sentiment = require('sentiment')
 
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+io.on('connection', function(socket) {
+
+  socket.on('newMessage', function(data) {
+    User.findOne({ username: data.username }, function(err, user) {
+      if (err) {
+        res.send(err)
+      } else if (!user) {
+        socket.emit('badUser', data.username)
+      } else {
+        var friendid = user._id
+        var content = data.content;
+        var createdAt = new Date();
+        var anonymousSender = data.anon
+        if (filter.clean(content).includes('~')) {
+          // emit dirty event
+        }
+        if (sentiment(content).score < 5) {
+          // emit non-positive event
+        }
+
+        new Message({
+          sender: req.user._id,
+          receiver: friendid,
+          content: content,
+          createdAt: createdAt,
+          read: false
+        }).save(function(err, message) {
+          if (err) {
+            console.log("Error while sending message", err)
+          } else {
+            new Thread({
+              participant1: req.user._id,
+              anonymousSender: anonymousSender,
+              participant2: friendid,
+              firstMessage: message,
+              replies: []
+            }).save(function(err, thread) {
+              if (err) {
+                console.log("Error while creating thread", err)
+              } else {
+                // emit new message event
+                socket.emit('newMessage', thread)
+              }
+            })
+          }
+        })
+
+
+
+      }
+    })
+
+  })
+
+
+})
 
 //////////////////// LANDING PAGE WITH OPTIONS FOR SIGNUP AND LOGIN ////////////////////////////////
 // Users who are not logged in can see these routes
