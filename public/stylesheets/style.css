@@ -1,7 +1,40 @@
 body {
   margin: auto;
-  background-color: black; 
-  min-height: 75rem;
-  padding-top: 6.5rem;
-  font: 14px "Open Sans", Helvetica, Arial, sans-serif;
+  font: 14px "Open Sans", Helvetica, Arial, sans-serif, 'Oswald';
+  display: flex;
+  justify-content: center;
+  align-items: top;
+}
+
+#navbar {
+    font-family: 'Oswald';
+    background-color: #93DCE3;
+    border: 0px;
+    color: white;
+    font-size: 50px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100px;
+}
+
+#header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#logout-button {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    font-size: 15px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    padding: 5px;
+}
+
+a {
+    color: white;
 }

@@ -1,0 +1,41 @@
+body {
+  margin: auto;
+  padding-top: 20rem;
+  font: 14px "Open Sans", Helvetica, Arial, sans-serif, 'Oswald';
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  background-color: #FFCD66;
+}
+
+#signup-box {
+    width: 400px;
+    padding: 10px;
+    border: 0.5px solid transparent;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'Oswald';
+    font-size: 15px;
+    background-color: #93DCE3;
+    margin: auto;
+    margin-bottom: 100px;
+}
+
+h2 {
+    color: white;
+}
+
+.signup-button {
+    text-transform: uppercase;
+    font-size: 20px;
+    background-color: #FFCD66;
+    color: white;
+    font-family: 'Oswald';
+}
+
+input {
+    border: 0px;
+    border-radius: 10px;
+    width: 200px;
+    padding: 5px;
+}
