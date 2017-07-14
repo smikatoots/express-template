@@ -6,7 +6,7 @@ var Filter = require('bad-words')
 var filter = new Filter({ placeHolder: '~'});
 var sentiment = require('sentiment')
 
-var http = require('http').Server(app);
+var http = require('http').Server(router);
 var io = require('socket.io')(http);
 
 io.on('connection', function(socket) {
