@@ -24,7 +24,7 @@ module.exports = function(passport) {
     u.save(function(err, user) {
       if (err) {
         console.log(err);
-        res.status(500).redirect('/register');
+        res.status(500).redirect('/signup');
         return;
       }
       console.log(user);
@@ -39,7 +39,7 @@ module.exports = function(passport) {
 
   // POST Login page
   router.post('/login', passport.authenticate('local',{
-    successRedirect: '/protected',
+    successRedirect: '/threads',
     failureRedirect: '/login'
   }));
 
