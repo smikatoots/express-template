@@ -3,7 +3,8 @@ var router = express.Router();
 var models = require('../models');
 var User = models.User;
 var Filter = require('bad-words')
-var filter = new Filter();
+var filter = new Filter({ placeHolder: '~'});
+var sentiment = require('sentiment')
 
 
 //////////////////// LANDING PAGE WITH OPTIONS FOR SIGNUP AND LOGIN ////////////////////////////////
@@ -46,6 +47,13 @@ router.post('/messages/:friendid', function(req, res) {
   var content = req.body.content;
   var createdAt = new Date();
   var anonymousSender = req.body.anonymous
+  if (filter.clean(content).includes('~')) {
+    // emit dirty event
+  }
+  if (sentiment(content).score < 5) {
+    // emit non-positive event
+  }
+
   new Message({
     sender: req.user._id,
     reciever: friendid,
@@ -60,10 +68,13 @@ router.post('/messages/:friendid', function(req, res) {
         participant1: req.user._id,
         anonymousSender: anonymousSender,
         participant2: friendid,
-        messages: [message]
+        firstMessage: message,
+        replies: []
       }).save(function(err) {
         if (err) {
           console.log("Error while creating thread", err)
+        } else {
+          // emit new message event
         }
       })
     }
