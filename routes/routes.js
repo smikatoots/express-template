@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
-// var app = require('../app');
+var app = require('../app');
 var User = models.User;
 var Filter = require('bad-words')
 var filter = new Filter({ placeHolder: '~'});
@@ -108,6 +108,7 @@ io.on('connection', function(socket) {
       // emit non-positive event
       socket.emit("negativeMessage")
     }
+
 
   })
 })
