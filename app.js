@@ -10,9 +10,6 @@ var LocalStrategy = require('passport-local');
 var mongoose = require('mongoose');
 var connect = process.env.MONGODB_URI;
 
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-
 var REQUIRED_ENV = "SECRET MONGODB_URI".split(" ");
 
 REQUIRED_ENV.forEach(function(el) {
@@ -30,6 +27,9 @@ var models = require('./models');
 var routes = require('./routes/routes');
 var auth = require('./routes/auth');
 var app = express();
+
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 // view engine setup
 var hbs = require('express-handlebars')({

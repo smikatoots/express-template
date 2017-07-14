@@ -11,7 +11,7 @@ var sentiment = require('sentiment')
 //////////////////// LANDING PAGE WITH OPTIONS FOR SIGNUP AND LOGIN ////////////////////////////////
 // Users who are not logged in can see these routes
 
-module.exports = function(socket) {
+module.exports = function(io) {
 
   router.get('/', function(req, res, next) {
     res.render('landing');
@@ -169,6 +169,7 @@ module.exports = function(socket) {
   router.get('/messages/:friendid', function(req, res) {
     res.render()
   })
+
   return router
 }
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
