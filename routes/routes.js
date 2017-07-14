@@ -58,7 +58,7 @@ router.post('/messages/:friendid', function(req, res) {
     } else {
       new Thread({
         participant1: req.user._id,
-        anonymousSender: anonymousSender
+        anonymousSender: anonymousSender,
         participant2: friendid,
         messages: [message]
       }).save(function(err) {
