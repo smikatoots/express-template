@@ -35,12 +35,12 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          {{#if true}}
+          {{#if user.username}}
             <li>
               <form method="get" action="/logout" style="padding-top: 10px; padding-right: 10px">
                 <div class="form-group">
-                  <img src="{{pictureURL}}">
-                  <text style="font-size: 14px">Logged in as {{username}}</text>
+                  <!-- <img src="{{pictureURL}}"> -->
+                  <text style="font-size: 14px">Logged in as {{user.username}}</text>
                   <a href="/logout" class="btn-small">Logout</a>
                 </div>
             </li>
