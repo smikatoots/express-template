@@ -35,16 +35,16 @@
       {{#each contacts}}
         <tr style="padding: 15px">
           <!-- <form method="get" action="./{{_id}}" > -->
-            <td style="padding-top: 1em"><strong>{{name}} ({{phone}})</strong></td>
+            <td><strong>{{name}} ({{phone}})</strong></td>
           <!-- </form> -->
           <form method="get" action="messages/send/{{_id}}" >
-            <td style="padding-top: 1em"><button type="submit" class="btn btn-primary">Send Text</button></td>
+            <td><button type="submit" class="btn btn-primary">Send Text</button></td>
           </form>
           <form method="get" action="messages/{{_id}}" >
-            <td style="padding-top: 1em"><button type="submit" class="btn btn-primary">View Messages</button></td>
+            <td><button type="submit" class="btn btn-primary">View Messages</button></td>
           </form>
           <form method="get" action="contacts/{{_id}}" >
-            <td style="padding-top: 1em"><button type="submit" class="btn btn-primary">Edit Contact</button></td>
+            <td><button type="submit" class="btn btn-primary">Edit Contact</button></td>
           </form>
         </tr><br>
         <tr></tr>
