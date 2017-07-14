@@ -127,8 +127,8 @@ io.on('connection', function(socket) {
         })
       }
     })
-
-})
+  })
+});
 
 //////////////////// LANDING PAGE WITH OPTIONS FOR SIGNUP AND LOGIN ////////////////////////////////
 // Users who are not logged in can see these routes
