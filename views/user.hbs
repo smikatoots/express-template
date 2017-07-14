@@ -56,7 +56,8 @@
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
-    $('#messages').append(thread)
+    console.log("Thread in : " + thread)
+    $('#messages').append(thread.firstMessage)
   })
   socket.on('negativeMessage', function() {
 
@@ -86,8 +87,6 @@
     $('#msgContent').val('')
     $('#recipient').val('')
     $('#anon').val('')
-    // var user =;
-    // console.log(user._id)
     socket.emit('newMessage', {
       user: "{{user._id}}",
       content: bodyMsg,
