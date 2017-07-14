@@ -1,7 +1,7 @@
 
 <div class="userbox" style="width: 33%; background-color: gray; padding: 5px">
   <center>
-    <form method="POST" style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+    <form style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
     <h3>Send an anonymous message!</h3>
       <div class="form-group">
         <label>Who do you want to complement?</label>
@@ -12,7 +12,11 @@
         <textarea id="msgContent" name="content" class="form-control" placeholder="Send them a message to make them smile :)"></textarea>
       </div>
       <div class="form-group">
-        <button id="newMessage" type="submit" class="btn btn-info">Send {{name}} a message</button>
+        <label>Reveal your identity</label>
+        <input id="checkBox" type="checkbox">
+      </div>
+      <div class="form-group">
+        <button id="newMessage" type="submit" class="btn btn-info">Send a message</button>
       </div>
     </form>
 
@@ -28,22 +32,18 @@
 <div class="messagebox" style="width: 66%; background-color: gray; padding: 5px">
   <center>
     <h3>Message Threads</h3>
-      {{#each messages}}
-        <div style="border: 2px solid black; border-radius: 5px; padding: 7px; margin: 6px;
-                    width: 40%; background-color: rgb(128, 167, 229); text-align: left">
-          {{#if from}}
-            <text>Sent by {{from}} via SMS: {{created}}</text></br>
-          {{else}}
-            <text>Sent to {{contact.name}} via SMS: {{created}}</text></br>
-          {{/if}}
-          <font color="blue">{{content}}</font>
-        </div>
-      {{/each}}
+    <form class="form-group">
+      <button type="submit" class="btn btn-primary">View Sent</button>
+      <button type="submit" class="btn btn-primary">View Received</button>
+    </form>
+    <div id="#messages" style="border: 2px solid black; border-radius: 5px; padding: 7px; margin: 6px;
+                width: 40%; background-color: rgb(128, 167, 229); text-align: left">
+    </div>
+    <div class="form-group">
+      <textarea id="msgContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+      <button id="newReply" type="submit" class="btn btn-info">Reply</button>
+    </div>
   </br>
-  <form class="form-group">
-    <button type="submit" class="btn btn-primary">View Sent</button>
-    <button type="submit" class="btn btn-primary">View Received</button>
-  </form>
   </center>
 
   <br>
@@ -56,6 +56,7 @@
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
+    $('#messages').append(thread)
   })
   socket.on('negativeMessage', function() {
 
@@ -76,7 +77,8 @@
   })
 
   // When New Message button is pushed
-  $('#newMessage').click(function() {
+  $('#newMessage').click(function(event) {
+    event.preventDefault();
     var bodyMsg = $('#msgContent').val();
     var to = $('#recipient').val();
     var anon = $('#anon').is(":checked");

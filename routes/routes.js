@@ -49,6 +49,7 @@ router.get('/user', function(req, res) {
 io.on('connection', function(socket) {
 
   socket.on('newMessage', function(data) {
+    console.log(data)
     User.findOne({ username: data.username }, function(err, user) {
       if (err) {
         res.send(err)
@@ -127,7 +128,7 @@ io.on('connection', function(socket) {
         })
       }
     })
-
+  })
 })
 
 //////////////////// LANDING PAGE WITH OPTIONS FOR SIGNUP AND LOGIN ////////////////////////////////
