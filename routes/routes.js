@@ -27,9 +27,23 @@ router.use(function(req, res, next){
 // Only logged in users can see these routes
 
 // home page with threads
-router.get('/threads', function(req, res, next) {
-  res.render('threads');
+router.get('/threads', function(req, res) {
+  var threads = [];
+  threads.push(Thread.find({participant2: req.user._id}).populate("participant1"));
+  threads.push(Thread.find({participant1: req.user._id}).populate("participant2"));
+  Promise.all(threads)
+  .then(function(threads) {
+    res.render('threads', {
+      user: req.user,
+      received: threads[0],
+      sent: threads[1]
+    });
+  })
 });
+
+router.post('/messages/:friendid', function(req, res) {
+
+})
 
 router.get('/messages/:friendid') {
   res.render()
