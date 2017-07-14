@@ -28,35 +28,24 @@
 <div class="messagebox" style="width: 66%; background-color: gray; padding: 5px">
   <center>
     <h3>Message Threads</h3>
-    <table style="width:50%">
-      <tr>
-        <th style="font-size: 24px">Contacts</th>
-      </tr>
-      {{#each contacts}}
-        <tr style="padding: 15px">
-          <!-- <form method="get" action="./{{_id}}" > -->
-            <td><strong>{{name}} ({{phone}})</strong></td>
-          <!-- </form> -->
-          <form method="get" action="messages/send/{{_id}}" >
-            <td><button type="submit" class="btn btn-primary">Send Text</button></td>
-          </form>
-          <form method="get" action="messages/{{_id}}" >
-            <td><button type="submit" class="btn btn-primary">View Messages</button></td>
-          </form>
-          <form method="get" action="contacts/{{_id}}" >
-            <td><button type="submit" class="btn btn-primary">Edit Contact</button></td>
-          </form>
-        </tr><br>
-        <tr></tr>
+      {{#each messages}}
+        <div style="border: 2px solid black; border-radius: 5px; padding: 7px; margin: 6px;
+                    width: 40%; background-color: rgb(128, 167, 229); text-align: left">
+          {{#if from}}
+            <text>Sent by {{from}} via SMS: {{created}}</text></br>
+          {{else}}
+            <text>Sent to {{contact.name}} via SMS: {{created}}</text></br>
+          {{/if}}
+          <font color="blue">{{content}}</font>
+        </div>
       {{/each}}
-    </table>
   </br>
-  </center>
-
-  <form class="form-group col-xs-offset-3" method="get" action="/contacts/new">
+  <form class="form-group">
     <button type="submit" class="btn btn-primary">View Sent</button>
     <button type="submit" class="btn btn-primary">View Received</button>
   </form>
+  </center>
+
   <br>
 </div>
 
@@ -64,10 +53,29 @@
 <script>
   var socket = io('localhost:3000');
 
+  // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
   })
+  socket.on('negativeMessage', function() {
 
+  })
+  socket.on('dirtyMessage', function() {
+
+  })
+
+  // Receive emits from routes.js when new REPLY is posted
+  socket.on('newReply', function(thread) {
+    // add message to message thread body
+  })
+  socket.on('negativeReply', function() {
+
+  })
+  socket.on('dirtyReply', function() {
+
+  })
+
+  // When New Message button is pushed
   $('#newMessage').click(function() {
     var bodyMsg = $('#msgContent').val();
     var to = $('#recipient').val();
@@ -79,6 +87,13 @@
       content: bodyMsg,
       receiver: to,
       anon: anon
+    })
+  })
+
+  // When Reply button is pushed; See Leo's spec for more information
+  $('#newReply').click(function() {
+    socket.emit('newReply', {
+
     })
   })
 
