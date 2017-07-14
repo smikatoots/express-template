@@ -27,13 +27,13 @@ router.use(function(req, res, next){
 // Only logged in users can see these routes
 
 // home page with threads
-router.get('/threads', function(req, res) {
+router.get('/user', function(req, res) {
   var threads = [];
   threads.push(Thread.find({participant2: req.user._id}).populate("participant1"));
   threads.push(Thread.find({participant1: req.user._id}).populate("participant2"));
   Promise.all(threads)
   .then(function(threads) {
-    res.render('threads', {
+    res.render('user', {
       user: req.user,
       received: threads[0],
       sent: threads[1]
@@ -42,7 +42,32 @@ router.get('/threads', function(req, res) {
 });
 
 router.post('/messages/:friendid', function(req, res) {
-
+  var friendid = req.params.friendid;
+  var content = req.body.content;
+  var createdAt = new Date();
+  var anonymousSender = req.body.anonymous
+  new Message({
+    sender: req.user._id,
+    reciever: friendid,
+    content: content,
+    createdAt: createdAt,
+    read: false
+  }).save(function(err, message) {
+    if (err) {
+      console.log("Error while sending message", err)
+    } else {
+      new Thread({
+        participant1: req.user._id,
+        anonymousSender: anonymousSender
+        participant2: friendid,
+        messages: [message]
+      }).save(function(err) {
+        if (err) {
+          console.log("Error while creating thread", err)
+        }
+      })
+    }
+  })
 })
 
 router.get('/messages/:friendid') {
