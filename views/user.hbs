@@ -76,6 +76,7 @@
 
   })
 
+
   // When New Message button is pushed
   $('#newMessage').click(function(event) {
     event.preventDefault();
@@ -85,7 +86,10 @@
     $('#msgContent').val('')
     $('#recipient').val('')
     $('#anon').val('')
+    // var user =;
+    // console.log(user._id)
     socket.emit('newMessage', {
+      user: "{{user._id}}",
       content: bodyMsg,
       receiver: to,
       anon: anon

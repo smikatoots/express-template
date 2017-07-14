@@ -53,7 +53,7 @@ var threadSchema = mongoose.Schema({
 
 var User = mongoose.model('User', userSchema);
 var Message = mongoose.model('Message', messageSchema);
-var Thread = mongoose.model
+var Thread = mongoose.model('Thread', threadSchema)
 
 module.exports = {
     User:User,

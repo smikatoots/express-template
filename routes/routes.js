@@ -4,7 +4,7 @@ var models = require('../models');
 var app = require('../app');
 var User = models.User;
 var Message = models.Message;
-var Thread = models.User;
+var Thread = models.Thread;
 var Filter = require('bad-words')
 var filter = new Filter({ placeHolder: '~'});
 var sentiment = require('sentiment')
@@ -69,7 +69,7 @@ module.exports = function(io) {
           }
 
           new Message({
-            sender: req.user._id,
+            sender: data.user,
             receiver: friendid,
             content: content,
             createdAt: createdAt,
@@ -78,18 +78,16 @@ module.exports = function(io) {
             if (err) {
               console.log("Error while sending message", err)
             } else {
-              console.log("Message: " + message)
               new Thread({
-                participant1: req.user._id,
+                participant1: data.user,
                 anonymousSender: anonymousSender,
                 participant2: friendid,
-                firstMessage: message,
+                firstMessage: message._id,
                 replies: []
               }).save(function(err, thread) {
                 if (err) {
                   console.log("Error while creating thread", err)
                 } else {
-                  console.log("Thread: " + thread)
                   // emit new message event
                   socket.emit('newMessage', thread)
                 }
@@ -118,7 +116,7 @@ module.exports = function(io) {
           console.log("Invalid thread id")
         } else {
           new Message({
-            sender: req.user._id,
+            sender: data.user._id,
             receiver: thread.participant2,
             content: content,
             createdAt: new Date(),
