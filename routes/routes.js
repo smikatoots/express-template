@@ -81,9 +81,9 @@ router.post('/messages/:friendid', function(req, res) {
   })
 })
 
-// router.get('/messages/:friendid', function(req, res) {
-//
-// })
+router.get('/messages/:friendid'), function(req, res) {
+  res.render()
+}
 
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
