@@ -5,14 +5,14 @@
     <h3>Send an anonymous message!</h3>
       <div class="form-group">
         <label>Who do you want to complement?</label>
-        <input name="recipient" class="form-control" placeholder="Pick a friend...">
+        <input id="recipient" name="recipient" class="form-control" placeholder="Pick a friend...">
       </div>
       <div class="form-group">
         <label>What do you want to say?</label>
-        <textarea name="content" class="form-control" placeholder="Send them a message to make them smile :)"></textarea>
+        <textarea id="msgContent" name="content" class="form-control" placeholder="Send them a message to make them smile :)"></textarea>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-info">Send {{name}} a message</button>
+        <button id="newMessage" type="submit" class="btn btn-info">Send {{name}} a message</button>
       </div>
     </form>
 
@@ -60,34 +60,27 @@
   <br>
 </div>
 
-<!-- {{#if twitterId}}
-  <center><h3>Followers on Twitter</h3></center>
-  <form class="form-group col-xs-offset-3" method="get" action="twitter/messages">
-    <button type="submit" class="btn btn-primary">Show All Messages</button>
-  </form>
-  <table class="col-xs-offset-3" style="width:50%">
-    <tr>
-      <th>Screen Name</th>
-      <th>Location</th>
-      <th>Actions</th>
-    </tr>
-    {{#each followers.users}}
-      <tr style="padding: 15px">
-        <td>
-          <img src="{{this.profile_image_url}}">
-          <text>{{this.screen_name}}</text>
-        </td>
-        <td>
-          <text>{{this.location}}</text>
-        </td>
-        <form method="get" action="/twitter/messages/send/{{this.screen_name}}" >
-          <td style="padding-top: 1em"><button type="submit" class="btn btn-primary">Send message</button></td>
-        </form>
-      </tr><br>
-      <tr></tr>
-    {{/each}}
-  </table></br>
-  <form class="form-group col-xs-offset-3" method="get" action="/twitter/import">
-    <button type="submit" class="btn btn-primary">Import Twitter Followers</button>
-  </form>
-{{/if}} -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+  var socket = io('localhost:3000');
+
+  socket.on('newMessage', function(thread) {
+    // add message to message thread body
+  })
+
+  $('#newMessage').click(function() {
+    var bodyMsg = $('#msgContent').val();
+    var to = $('#recipient').val();
+    var anon = $('#anon').is(":checked");
+    $('#msgContent').val('')
+    $('#recipient').val('')
+    $('#anon').val('')
+    socket.emit('newMessage', {
+      content: bodyMsg,
+      receiver: to,
+      anon: anon
+    })
+  })
+
+
+</script>
