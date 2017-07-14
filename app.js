@@ -10,6 +10,9 @@ var LocalStrategy = require('passport-local');
 var mongoose = require('mongoose');
 var connect = process.env.MONGODB_URI;
 
+var http = require('http').Server(router);
+var io = require('socket.io')(http);
+
 var REQUIRED_ENV = "SECRET MONGODB_URI".split(" ");
 
 REQUIRED_ENV.forEach(function(el) {
@@ -85,7 +88,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
 ));
 
 app.use('/', auth(passport));
-app.use('/', routes);
+app.use('/', routes(io));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -119,7 +122,7 @@ app.use(function(err, req, res, next) {
 });
 
 var port = process.env.PORT || 3000;
-app.listen(port);
+http.listen(port);
 console.log('Express started. Listening on port %s', port);
 
 module.exports = app;
