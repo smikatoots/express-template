@@ -19,6 +19,11 @@ body {
     height: 100px;
 }
 
+.login-buttons {
+    display: flex;
+    flex-direction: row;
+}
+
 #header {
     display: flex;
     flex-direction: row;
@@ -33,6 +38,7 @@ body {
     border-radius: 10px;
     text-transform: uppercase;
     padding: 5px;
+    margin: 5px; 
 }
 
 a {

@@ -22,12 +22,25 @@
           <span id="title">HAPPIAPP</span>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
-          {{#if true}}
+          {{#if user}}
               <form method="get" action="/logout">
                 <div id="logout-button" class="form-group">
                   <a href="/logout"  class="btn-small">Logout</a>
                 </div>
              </form>
+          {{else}}
+            <div class="login-buttons">
+             <form method="get" action="/login">
+               <div id="logout-button" class="form-group">
+                 <a href="/login"  class="btn-small">Login</a>
+               </div>
+            </form>
+            <form method="get" action="/signup">
+              <div id="logout-button" class="form-group">
+                <a href="/signup"  class="btn-small">Sign Up</a>
+              </div>
+           </form>
+           </div>
           {{/if}}
   </nav>
 
