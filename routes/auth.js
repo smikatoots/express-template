@@ -20,7 +20,10 @@ module.exports = function(passport) {
         error: "Passwords don't match."
       });
     }
-
+    var pic = req.file.path
+    if (pic.substring(0,7) === "public\\") {
+      req.file.path = req.file.path.substring(7)
+    }
     console.log("HI")
     var u = new models.User({
       username: req.body.username,
