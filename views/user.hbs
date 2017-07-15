@@ -149,33 +149,60 @@
   socket.on('newMessage', function(thread) {
     // add message to message thread body
     // $('#messages').append(message.content)
-    var newThread = `  <div id="thread" for="`+thread._id+`">
-                        <div id="message">
-                            <div class="message-row">
-                                <div class="message-row-row">
-                                    <div>
-                                        <img id="message-pic" src="./assets/profile.png">
-                                    </div>
-                                    <div class="first-contents">
-                                        <div class="first-message">`+thread.firstMessage.content+`</div>
+    if (thread.anonymousSender) {
+      var newThread = `  <div id="thread" for="`+thread._id+`">
+                          <div id="message">
+                              <div class="message-row">
+                                  <div class="message-row-row">
+                                      <div>
+                                          <img id="message-pic" src="./assets/profile.png">
+                                      </div>
+                                      <div class="first-contents">
+                                          <div class="first-message">`+thread.firstMessage.content+`</div>
 
-                                          <div class="first-from">Sent to `+thread.participant2.firstName+` anonymously at `+thread.firstMessage.createdAt+`.</div>
-                                    </div>
-                                </div>
-                                <img class="thread-pic" src="./assets/comment.png">
-                            </div>
-                            <div class="reply-container">
-                            </div>
-                            <div class="reply-input">
-                              <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
-                              <button id="newReply" type="submit" class="btn">Reply</button>
-                            </div>
-                        </div>
-                    </div>`
+                                            <div class="first-from">Sent to `+thread.participant2.firstName+` anonymously at `+thread.firstMessage.createdAt+`.</div>
+                                      </div>
+                                  </div>
+                                  <img class="thread-pic" src="./assets/comment.png">
+                              </div>
+                              <div class="reply-container">
+                              </div>
+                              <div class="reply-input">
+                                <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+                                <button id="newReply" type="submit" class="btn">Reply</button>
+                              </div>
+                          </div>
+                      </div>`
+    } else {
+      var newThread = `  <div id="thread" for="`+thread._id+`">
+                          <div id="message">
+                              <div class="message-row">
+                                  <div class="message-row-row">
+                                      <div>
+                                          <img id="message-pic" src="./assets/profile.png">
+                                      </div>
+                                      <div class="first-contents">
+                                          <div class="first-message">`+thread.firstMessage.content+`</div>
+
+                                            <div class="first-from">Sent to `+thread.participant2.firstName+` at `+thread.firstMessage.createdAt+`.</div>
+                                      </div>
+                                  </div>
+                                  <img class="thread-pic" src="./assets/comment.png">
+                              </div>
+                              <div class="reply-container">
+                              </div>
+                              <div class="reply-input">
+                                <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+                                <button id="newReply" type="submit" class="btn">Reply</button>
+                              </div>
+                          </div>
+                      </div>`
+    }
     $('.sentBlock').prepend(newThread);
   })
 
   socket.on('newReceivedMessage', function(thread) {
+    console.log('receiving message!!!')
     if (thread.anonymousSender) {
       var newThread = `  <div id="thread" for="`+thread._id+`">
                           <div id="message">
