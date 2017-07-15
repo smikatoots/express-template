@@ -33,8 +33,25 @@ module.exports = function(io) {
   router.get('/user', function(req, res) {
     User.find().then(function(allUsers) {
       var threads = [];
-      threads.push(Thread.find({participant2: req.user._id}).populate("participant1").populate("firstMessage").populate("replies"));
-      threads.push(Thread.find({participant1: req.user._id}).populate("participant2").populate("firstMessage").populate("replies"));
+      // Thread.find({participant2: req.user._id}).populate("participant1").populate("firstMessage").populate("replies")
+      // .exec(function(err, threads) {
+      //   threads.replies.forEach(function(reply) {
+      //     User.populate(reply, {
+      //       path: 'receiver',
+      //       select: 'name'
+      //     })
+      //   })
+      //   User.populate(threads, {
+      //     path: 'replies'
+      //   })
+      // });
+      threads.push(Thread.find({participant2: req.user._id}).populate("participant1").populate("firstMessage"))
+
+      threads.push(Thread.find({participant1: req.user._id}).populate("participant2").populate("firstMessage"))
+
+      // User.populate()
+      console.log("trash")
+      console.log(threads[0].replies)
       Promise.all(threads)
       .then(function(threads) {
         res.render('user', {
@@ -118,20 +135,42 @@ module.exports = function(io) {
           } else if (!thread) {
             console.log("Invalid thread id")
           } else {
-            new Message({
-              sender: data.user._id,
-              receiver: thread.participant2,
-              content: content,
-              createdAt: new Date(),
-              read: false
-            }).save(function(err, message) {
-              Thread.update({_id: thread._id}, {$push:{replies: message._id}}, function(err, update) {
-                if (err) {
-                  res.send(err)
-                } else {
-                  socket.emit('newReply', thread)
-                }
-              })
+
+            console.log("thread: " + thread)
+            User.findById(thread.participant2, function(err, user) {
+              console.log("name1: " + user.username)
+              if (err) {
+                res.send(err)
+              } else if (!user) {
+                console.log("THAT USER DOESN'T EXIST")
+              } else {
+                var receive = user.username
+
+                User.findById(thread.participant1, function(err, user) {
+                  if (err) {
+                    res.send(err)
+                  } else if (!user) {
+                    console.log("THAT USER DOESN'T EXIST")
+                  } else {
+                    var sender = user.username
+
+                    var reply = {
+                      sender: sender,
+                      receiver: receive,
+                      content: content,
+                      createdAt: new Date(),
+                    }
+
+                    Thread.update({_id: thread._id}, {$push:{replies: reply}}, function(err, update) {
+                      if (err) {
+                        res.send(err)
+                      } else {
+                        socket.emit('newReply', thread)
+                      }
+                    })
+                  }
+                })
+              }
             })
           }
         })

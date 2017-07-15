@@ -65,7 +65,7 @@
                           {{#if anonymousSender}}
                             <div class="first-from">Sent by {{participant1.firstName}} {{participant1.lastName}}</div>
                           {{else}}
-                            <div class="first-from">Sent anonymously.</div>
+                            <div class="first-from">Sent anonymously at {{firstMessage.createdAt}}.</div>
                           {{/if}}
                       </div>
                   </div>
@@ -74,8 +74,41 @@
               {{#each this.replies}}
                 <div class="reply">
                     <img id="reply-pic" src="./assets/profile.png">
-                    <p>{{content}}</p>
-                    <p>To {{receiver.firstName}} {{receiver.lastName}}
+                    <p>{{this.content}}</p>
+                </div>
+              {{/each}}
+              <div class="reply-input">
+                <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+                <button id="newReply" type="submit" class="btn">Reply</button>
+              </div>
+          </div>
+      </div>
+    {{/each}}
+
+
+    {{#each sent}}
+      <div id="thread" for="{{this._id}}">
+          <div id="message">
+              <div class="message-row">
+                  <div class="message-row-row">
+                      <div>
+                          <img id="message-pic" src="./assets/profile.png">
+                      </div>
+                      <div class="first-contents">
+                          <div class="first-message">{{firstMessage.content}}</div>
+                          {{#if anonymousSender}}
+                            <div class="first-from">Sent by {{participant1.firstName}} {{participant1.lastName}}</div>
+                          {{else}}
+                            <div class="first-from">Sent anonymously at {{firstMessage.createdAt}}.</div>
+                          {{/if}}
+                      </div>
+                  </div>
+                  <img class="thread-pic" src="./assets/comment.png">
+              </div>
+              {{#each this.replies}}
+                <div class="reply">
+                    <img id="reply-pic" src="./assets/profile.png">
+                    <p>{{this.content}}</p>
                 </div>
               {{/each}}
               <div class="reply-input">
@@ -103,7 +136,7 @@
     // add message to message thread body
     console.log("Thread in : " + thread.firstMessage)
     console.log("This is it: " + thread.firstMessage.content)
-    $('#messages').append(message.content)
+    // $('#messages').append(message.content)
   })
   socket.on('negativeMessage', function() {
 
