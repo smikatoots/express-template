@@ -16,7 +16,8 @@
   <h2>REGISTER</h2>
   <!-- Form attributes -->
   <center><div class="form-group">
-    <input id="choosePic" type='file' onchange="readURL(this);" name="picture"/>
+    <input id="choosePic" type='file' onchange="readURL(this);"/>
+    <input style="display: none" name="picture" id="picURL" value=""/>
     <div class="image">
       <img id="pic" src="#" />
     </div>
@@ -60,24 +61,28 @@
 
 
 <script>
+var profilePic;
 function readURL(input) {
-      console.log(input)
-      if (input.files && input.files[0]) {
-          var reader = new FileReader();
 
-          reader.onload = function (e) {
-              $('#pic')
-                  .attr('src', e.target.result)
-                  .width(200)
-                  .height(200);
-          };
+  
 
-          reader.readAsDataURL(input.files[0]);
-          $('#choosePic').hide();
-          $('#pic').show();
-      }
-      console.log($('#pic').attr('src'))
-      console.log(input.files[0].name)
+  console.log(input)
+  if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+          $('#pic')
+              .attr('src', e.target.result)
+              .width(200)
+              .height(200);
+          console.log(e.target.result)
+          $('#picURL').val(e.target.result)
+      };
+
+      reader.readAsDataURL(input.files[0]);
+      $('#choosePic').hide();
+      $('#pic').show();
+  }
   }
 
 $(document).ready(function() {
