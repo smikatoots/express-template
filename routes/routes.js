@@ -96,6 +96,7 @@ module.exports = function(io) {
                     // emit new message event
                     Thread.findById(thread._id).populate("participant2").populate("participant1").populate('firstMessage').exec(function(err, populatedThread) {
                       socket.emit('newMessage', populatedThread)
+                      socket.broadcast.emit('newReceivedMessage', populatedThread)
                     })
                   }
                 })
@@ -151,6 +152,7 @@ module.exports = function(io) {
                           if (err) {
                             res.send(err)
                           } else {
+                            console.log('thread._id being sent to front-end: ' + thread._id)
                             socket.emit('newReply', {reply: reply, thread: thread})
                           }
                         })

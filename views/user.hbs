@@ -54,7 +54,6 @@
 
 
   <div class="receivedBlock">
-    <h5>received</h5>
     {{#each received}}
       <div id="thread" for="{{this._id}}">
           <div id="message">
@@ -79,7 +78,7 @@
                   </div>
                   <img class="thread-pic" src="./assets/comment.png">
               </div>
-              <div class="reply-container">
+              <div class="reply-container {{this._id}}">
               {{#each this.replies}}
                 <div class="reply">
                   {{#if anon}}
@@ -105,7 +104,6 @@
   </div>
 
   <div class="sentBlock">
-    <h5>sent</h5>
     {{#each sent}}
       <div id="thread" for="{{this._id}}">
           <div id="message">
@@ -125,7 +123,7 @@
                   </div>
                   <img class="thread-pic" src="./assets/comment.png">
               </div>
-              <div class="reply-container">
+              <div class="reply-container {{this._id}}">
                 {{#each this.replies}}
                   <div class="reply">
                     {{#if anon}}
@@ -219,7 +217,7 @@
   socket.on('negativeMessage', function() {
 console.log("negativeMessage, add some positivity, friend!");
 
-})
+  })
 
   socket.on('dirtyMessage', function() {
     console.log("dirty message! :(")
@@ -292,9 +290,8 @@ console.log("negativeMessage, add some positivity, friend!");
   socket.on('newReply', function(data) {
     var reply = data.reply;
     var thread = data.thread;
+    console.log("thread._id received by front-end: " + thread._id)
     // add message to message thread body
-    console.log("CONTENT: " + reply.content);
-    console.log("T._id: " + thread._id)
     var picture = data.reply.picture
     var content = data.reply.content
     var newReply = `<div class="reply">
@@ -335,13 +332,19 @@ console.log("negativeMessage, add some positivity, friend!");
         receiver: recipient,
         anon: anon
       })
+      // socket.broadcast.emit('newMessage', {
+      //   user: "{{user._id}}",
+      //   content: bodyMsg,
+      //   receiver: recipient,
+      //   anon: anon
+      // })
     })
 
     // When Reply button is pushed; See Leo's spec for more information
-    $('#newReply').click(function() {
+    $('.messagebox').on('click', "#newReply", function() {
       event.preventDefault();
-      var bodyMsg = $('#replyContent').val();
-      $('#replyContent').val('')
+      var bodyMsg = $(this).parent().children('#replyContent').val();
+      // $('#replyContent').val('')
       var threadid = $(this).parent().parent().parent().attr('for')
       console.log(threadid)
       socket.emit('newReply', {

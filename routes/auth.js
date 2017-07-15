@@ -17,8 +17,11 @@ module.exports = function(passport) {
       });
     }
     var pic = req.file.path
-    if (pic.substring(0,7) === "public\\") {
-      req.file.path = req.file.path.substring(7)
+    if (pic.substring(0,7) === "public\\" || pic.substring(0,7) === "public/") {
+      new models.Pic({
+        url: req.file.path.substring(7),
+        username: req.body.username
+      }).save();
     }
 
     var u = new models.User({
@@ -30,7 +33,7 @@ module.exports = function(passport) {
       email: req.body.email,
       location: req.body.location,
       affiliation: req.body.affiliation,
-      picture: req.file.path || "",
+      picture: req.file.path.substring(7),
       bio: req.body.bio,
       friends: [],
       positivityScore: 0

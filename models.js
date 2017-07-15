@@ -18,7 +18,10 @@ var userSchema = mongoose.Schema({
   positivityScore: Number
 });
 
-
+var picSchema = mongoose.Schema({
+  url: String,
+  username: String
+})
 
 var messageSchema = mongoose.Schema({
   sender: {
@@ -62,9 +65,11 @@ var threadSchema = mongoose.Schema({
 var User = mongoose.model('User', userSchema);
 var Message = mongoose.model('Message', messageSchema);
 var Thread = mongoose.model('Thread', threadSchema)
+var Pic = mongoose.model('Pic', picSchema)
 
 module.exports = {
     User:User,
     Message:Message,
-    Thread:Thread
+    Thread:Thread,
+    Pic:Pic
 };
