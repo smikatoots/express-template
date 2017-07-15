@@ -113,7 +113,7 @@
                       <div class="first-contents">
                         <div class="first-message">{{firstMessage.content}}</div>
                         {{#if anonymousSender}}
-                          <div class="first-from">Sent anonymously at {{firstMessage.createdAt}}.</div>
+                          <div class="first-from">Sent to {{participant2.firstName}} anonymously at {{firstMessage.createdAt}}.</div>
                         {{else}}
                           <div class="first-from">Sent by {{participant1.firstName}} {{participant1.lastName}}</div>
                         {{/if}}
