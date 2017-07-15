@@ -28,7 +28,8 @@ module.exports = function(passport) {
       affiliation: req.body.affiliation,
       picture: req.body.picture,
       bio: req.body.bio,
-      friends: []
+      friends: [],
+      postivityScore: 0;
     });
     u.save(function(err, user) {
       if (err) {

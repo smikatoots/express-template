@@ -3,7 +3,6 @@
 </head>
 
 <div id="all">
-
 <div class="userbox">
     <div class="profile">
         <img src="{{user.picture}}" class="profile-pic">
@@ -19,10 +18,10 @@
         <label>Find a friend</label>
         <!-- <input id="recipient" name="recipient" class="form-control" placeholder="Pick a friend..."> -->
         <div class="bs-docs-example no-code">
-          <select class="selectpicker" data-live-search="true">
-            <option>Hot Dog, Fries and a Soda</option>
-            <option>Burger, Shake and a Smile</option>
-            <option>Sugar, Spice and all things nice</option>
+          <select class="friendpicker" data-live-search="true">
+            {{#each friends}}
+            <option>@{{this.username}}</option>
+            {{/each}}
           </select>
         </div>
       </div>
@@ -116,7 +115,7 @@
   $('#newMessage').click(function(event) {
     event.preventDefault();
     var bodyMsg = $('#msgContent').val();
-    var to = $('#recipient').val();
+    var to = $("option").is(":selected"));
     var anon = $('#anon').is(":checked");
     $('#msgContent').val('')
     $('#recipient').val('')
