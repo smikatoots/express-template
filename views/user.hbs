@@ -16,7 +16,7 @@
 </br>
     <form>
       <div class="form-group">
-        <label>Who do you want to complement?</label>
+        <label>Find a friend</label>
         <!-- <input id="recipient" name="recipient" class="form-control" placeholder="Pick a friend..."> -->
         <div class="bs-docs-example no-code">
           <select class="selectpicker" data-live-search="true">
@@ -27,28 +27,30 @@
         </div>
       </div>
       <div class="form-group">
-        <label>What do you want to say?</label>
+        <label>Send a happy message!</label>
         <textarea id="msgContent" name="content" class="form-control" placeholder="Send them a message to make them smile :)"></textarea>
       </div>
       <div class="form-group">
           <input id="checkBox" type="checkbox"> &nbsp;
          <label>Reveal your Identity?</label>
       </div>
-      <div class="form-group">
-        <button id="newMessage" type="submit" class="btn">Send a message</button>
+      <div class="user-buttons">
+          <form class="form-group">
+            <button id="newMessage" type="submit" class="btn">Send a message</button>
+          </form>
+          <form class="form-group" method="get" action="/contacts/new">
+            <button type="submit" class="btn">Find a new friend</button>
+          </form>
       </div>
     </form>
 
-    <form class="form-group" method="get" action="/contacts/new">
-      <button type="submit" class="btn">Find a new friend</button>
-    </form>
 </div>
 
 <div class="messagebox">
     <div class="toggle">
-      <button type="submit" class="btn">View Sent</button>
-      <button type="submit" class="btn">View Received</button>
-  </div>
+      <button type="submit" class="toggle-received">Received</button>
+      <button type="submit" class="toggle-sent">Sent</button>
+    </div>
     <div id="thread">
         <div id="message">
             <div class="message-row">
@@ -58,16 +60,19 @@
                     </div>
                     <div class="first-contents">
                         <div class="first-message">This is a positive message placeholder. Lol.</div>
-                        <div class="first-from">"Sent anonymously."</div>
+                        <div class="first-from">Sent anonymously.</div>
                     </div>
                 </div>
                 <img class="thread-pic" src="./assets/comment.png">
+            </div>
+            <div class="reply">
+                <img id="reply-pic" src="./assets/profile.png">
+                <p>This is a reply to a message.</p>
             </div>
             <div class="reply-input">
               <textarea id="msgContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
               <button id="newReply" type="submit" class="btn">Reply</button>
             </div>
-            <div class="reply">This is a reply to a message.</div>
         </div>
     </div>
 

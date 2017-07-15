@@ -6,6 +6,10 @@ body {
   align-items: top;
 }
 
+#title {
+    cursor: default;
+}
+
 #navbar {
     font-family: 'Oswald';
     background-color: #93DCE3;
@@ -38,7 +42,7 @@ body {
     border-radius: 10px;
     text-transform: uppercase;
     padding: 5px;
-    margin: 5px; 
+    margin: 5px;
 }
 
 a {
