@@ -26,6 +26,7 @@ module.exports = function(passport) {
       email: req.body.email,
       location: req.body.location,
       affiliation: req.body.affiliation,
+      picture: req.body.picture,
       friends: []
     });
     u.save(function(err, user) {
