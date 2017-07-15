@@ -15,7 +15,7 @@ var userSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "User"
   }],
-  postivityScore: Number
+  positivityScore: Number
 });
 
 var messageSchema = mongoose.Schema({

@@ -29,7 +29,7 @@ module.exports = function(passport) {
       picture: req.body.picture,
       bio: req.body.bio,
       friends: [],
-      positivityScore: 0;
+      positivityScore: 0,
     });
     u.save(function(err, user) {
       if (err) {
