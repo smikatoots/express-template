@@ -5,9 +5,10 @@ body {
   justify-content: center;
   align-items: top;
   font-family: 'Oswald';
-  background-color: #FFCD66;
+  /*background-color: #FFCD66;*/
 
-  background-image: url("../assets/bg2.jpg");
+  background-image: url("../assets/bg2.jpg") ;
+  /*background */
 }
 
 #all {
@@ -40,6 +41,7 @@ body {
     width: 300px;
     height: 380px;
     color: #93DCE3;
+
     /*animation: fadeIt 1s infinite;*/
 }
 
@@ -57,7 +59,7 @@ body {
 
 .messagebox {
     width: 800px;
-    height: 100vh;
+    height: auto;
 }
 
 .profile {
@@ -184,6 +186,10 @@ button:focus {
 .reply-input {
     display: flex;
     flex-direction: row;
+    margin: 10px;
+}
+
+#thread{
     margin: 10px;
 }
 
