@@ -142,6 +142,7 @@
   var socket = io('localhost:3000');
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
+
     // add message to message thread body
     console.log("sending messageeee")
     if (thread.anonymousSender) {
@@ -195,14 +196,74 @@
     $('#sendBtn').click()
   })
   socket.on('negativeMessage', function() {
-      console.log("negativeMessage, add some positivity, friend!");
-      $('.userbox').css('animation', 'wiggle 2s')
 
+    function shakeButton($button) {
+   console.log('Shaking button')
+   $button.removeClass("animated shake");
+
+   setTimeout(
+     function() {
+       $('.userbox').css({backgroundColor: '#f44542'})
+       $button.addClass("animated shake");
+     },
+     50
+   );
+ }
+
+   shakeButton($(".userbox"));
   })
   socket.on('dirtyMessage', function() {
-    console.log("dirty message! :(")
 
-    $('.userbox').css('animation', 'wiggle 2s')
+    function shakeButton($button) {
+   console.log('Shaking button')
+   $button.removeClass("animated shake");
+
+   setTimeout(
+     function() {
+       $('.userbox').css({backgroundColor: '#f44542'})
+       $button.addClass("animated shake");
+     },
+     50
+   );
+ }
+
+   shakeButton($(".userbox"));
+
+  })
+
+  socket.on('negativeReply', function() {
+
+    function shakeButton($button) {
+   console.log('Shaking button')
+   $button.removeClass("animated shake");
+
+   setTimeout(
+     function() {
+       $('#message').css("background-color", '#f44542')
+       $button.addClass("animated shake");
+     },
+     50
+   );
+ }
+
+   shakeButton($(".reply-input"));
+  })
+  socket.on('dirtyReply', function() {
+    function shakeButton($button) {
+   console.log('Shaking button')
+   $button.removeClass("animated shake");
+
+   setTimeout(
+     function() {
+       $('#message').css("background-color", '#f44542')
+       $button.addClass("animated shake");
+     },
+     50
+   );
+
+ }
+
+   shakeButton($(".reply-input"));
   })
 
 
@@ -273,19 +334,7 @@
     // $(".sentBlock").attr('for', `${thread._id}`).find('.reply-container').prepend(newReply);
     $(`.${thread._id}`).append(newReply);
   })
-  socket.on('negativeReply', function() {
-    // $('#newReply').click(function(event) {
-      $('.messagebox').on('click', '#newReply', function(event){
-        $(this).parent().parent().css('animation', 'wiggle 2s');
-      })
-    // })
-  // $('.reply-input').css('animation', 'wiggle 2s')
-  })
-  socket.on('dirtyReply', function() {
-    $('.messagebox').on('click', '#newReply', function(event){
-      $(this).parent().parent().css('animation', 'wiggle 2s');
-    })
-  })
+
   $(document).ready(function() {
     $('.receivedBlock').show();
     $('.sentBlock').hide();
@@ -301,6 +350,7 @@
 
     $('#newMessage').click(function(event) {
       event.preventDefault();
+      $('.userbox').css({backgroundColor: 'white'})
       var bodyMsg = $('#msgContent').val();
       var recipient = $(".friendpicker option:selected").text().slice(1);
       var anon = !($('#checkBox').is(":checked"));
@@ -317,6 +367,7 @@
     // When Reply button is pushed; See Leo's spec for more information
     $('.messagebox').on('click', "#newReply", function() {
       event.preventDefault();
+      $('#message').css("background-color", 'white')
       var bodyMsg = $(this).parent().children('#replyContent').val();
       var threadid = $(this).parent().parent().parent().attr('for')
       $(this).parent().children('#replyContent').val('');

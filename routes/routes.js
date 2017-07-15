@@ -107,8 +107,10 @@ module.exports = function(io) {
               }
             })
           }
+          return false
         }
       })
+      return false
     })
 
     socket.on('newReply', function(data) {
