@@ -17,7 +17,7 @@ module.exports = function(passport) {
       });
     }
     var pic = req.file.path
-    if (pic.substring(0,7) === "public\\" || pic.substring(0,7) === "public/") {
+    if (pic.substring(0,7) === "public\\files" || pic.substring(0,7) === "public/files") {
       new models.Pic({
         url: req.file.path.substring(7),
         username: req.body.username

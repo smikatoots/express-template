@@ -55,6 +55,7 @@ module.exports = function(io) {
   io.on('connection', function(socket) {
 
     socket.on('newMessage', function(data) {
+      console.log("MESSAGE COMING IN")
       User.findOne({ username: data.receiver }, function(err, user) {
         if (err) {
           res.send(err)
@@ -94,7 +95,9 @@ module.exports = function(io) {
                     console.log("Error while creating thread", err)
                   } else {
                     // emit new message event
+                    console.log("EMIT IT BACK BABY")
                     Thread.findById(thread._id).populate("participant2").populate("participant1").populate('firstMessage').exec(function(err, populatedThread) {
+                      console.log("HI?")
                       socket.emit('newMessage', populatedThread)
                       socket.broadcast.emit('newReceivedMessage', populatedThread)
                     })
