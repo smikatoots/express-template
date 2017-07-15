@@ -134,6 +134,7 @@ module.exports = function(io) {
                     res.send(err)
                 }
                 else {
+                    console.log("replySender: " + replySender.username)
                     if (thread.participant1 === replySenderId) {
                         var replyReceiverId = thread.participant2;
                         var you = true;
@@ -141,6 +142,7 @@ module.exports = function(io) {
                         var replyReceiverId = thread.participant1;
                         var you = false;
                     }
+                    console.log("YOU: " + you)
                     User.findById(replyReceiverId, function(err, replyReceiver) {
                       console.log(data.user)
                       console.log(replySenderId)
