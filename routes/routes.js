@@ -33,8 +33,8 @@ module.exports = function(io) {
   router.get('/user', function(req, res) {
     User.find().then(function(allUsers) {
       var threads = [];
-      threads.push(Thread.find({participant2: req.user._id}).populate("participant1").populate("firstMessage"))
-      threads.push(Thread.find({participant1: req.user._id}).populate("participant2").populate("firstMessage"))
+      threads.push(Thread.find({participant2: req.user._id}).populate("participant1").populate("participant2").populate("firstMessage"))
+      threads.push(Thread.find({participant1: req.user._id}).populate("participant2").populate("participant1").populate("firstMessage"))
 
       // User.populate()
       Promise.all(threads)
@@ -94,7 +94,7 @@ module.exports = function(io) {
                     console.log("Error while creating thread", err)
                   } else {
                     // emit new message event
-                    Thread.findById(thread._id).populate("participant2").populate('firstMessage').exec(function(err, populatedThread) {
+                    Thread.findById(thread._id).populate("participant2").populate("participant1").populate('firstMessage').exec(function(err, populatedThread) {
                       socket.emit('newMessage', populatedThread)
                     })
                   }
@@ -117,7 +117,6 @@ module.exports = function(io) {
       } else if (censor(content) === "section of high negativity") {
         socket.emit("negativeReply");
       } else if (censor(content) === "all good") {
-        console.log("id; " + threadid)
         Thread.findById(threadid, function(err, thread) {
           if (err) {
             console.log("Could not identify thread to post reply for", err)
@@ -136,24 +135,22 @@ module.exports = function(io) {
                         var replyReceiverId = thread.participant1;
                     }
                     User.findById(replyReceiverId, function(err, replyReceiver) {
-                        var reply = {
-                            receiver: replyReceiver.username,
-                            sender: replySender.username,
-                            content: content,
-                            createdAt: new Date(),
-                            // you: you
-                        }
+                      var reply = {
+                          receiver: replyReceiver.username,
+                          sender: replySender.username,
+                          content: content,
+                          picture: replySender.picture,
+                          createdAt: new Date(),
+                      }
 
-                        Thread.update({_id: thread._id}, {$push:{replies: reply}}, function(err, update) {
+                      Thread.update({_id: thread._id}, {$push:{replies: reply}}, function(err, update) {
                           if (err) {
                             res.send(err)
                           } else {
-                            socket.emit('newReply', thread)
+                            socket.emit('newReply', {reply: reply, thread: thread})
                           }
                         })
-                        console.log(reply);
                     })
-
                 }
             })
 
