@@ -27,6 +27,7 @@ module.exports = function(passport) {
       location: req.body.location,
       affiliation: req.body.affiliation,
       picture: req.body.picture,
+      bio: req.body.bio,
       friends: []
     });
     u.save(function(err, user) {

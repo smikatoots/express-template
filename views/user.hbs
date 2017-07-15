@@ -6,11 +6,11 @@
 
 <div class="userbox">
     <div class="profile">
-        <img src="./assets/profile.png" class="profile-pic">
+        <img src="{{user.picture}}" class="profile-pic">
         <div class="profile-contents">
-            <div class="profile-name">Mika Reyes</div>
-            <div>@smikatoots</div>
-            <div>This is my bio.</div>
+            <div class="profile-name">{{user.firstName}} {{user.lastName}}</div>
+            <div>@{{user.username}}</div>
+            <div>{{user.bio}}</div>
         </div>
     </div>
 </br>
