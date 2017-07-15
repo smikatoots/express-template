@@ -83,14 +83,16 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
 <script>
   var socket = io('localhost:3000');
 
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
-    console.log("Thread in : " + thread)
-    $('#messages').append(thread.firstMessage)
+    console.log("Thread in : " + thread.firstMessage.content)
+    console.log("This is it: " + message.content)
+    $('#messages').append(message.content)
   })
   socket.on('negativeMessage', function() {
 
@@ -117,7 +119,10 @@
     event.preventDefault();
     var bodyMsg = $('#msgContent').val();
     // to is username of recipient
-    var recipient = $(".friendpicker option").is(":selected").text().slice(1);
+
+    var recipient = $(".friendpicker option:selected").text().slice(1);
+
+
     var anon = $('#anon').is(":checked");
     $('#msgContent').val('')
     $('#recipient').val('')

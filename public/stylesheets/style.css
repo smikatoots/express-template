@@ -21,6 +21,7 @@ body {
     flex-direction: row;
     align-items: center;
     height: 100px;
+    box-shadow: 1px 3px 50px 1px #d8d8d8;
 }
 
 .login-buttons {
