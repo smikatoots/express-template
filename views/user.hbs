@@ -215,15 +215,15 @@
     $('.sentBlock').prepend(newThread);
   })
   socket.on('negativeMessage', function() {
-console.log("negativeMessage, add some positivity, friend!");
-  $('.transform').toggleClass('transform-active');
+    console.log("negativeMessage, add some positivity, friend!");
+    $('.transform').toggleClass('transform-active');
 
-})
+  })
 
   socket.on('dirtyMessage', function() {
     console.log("dirty message! :(")
     $('.userbox').css('background-color', "#f44242");
-    })
+  })
 
   socket.on('newReceivedMessage', function(thread) {
     console.log('receiving message!!!')
