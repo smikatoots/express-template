@@ -53,7 +53,9 @@ var threadSchema = mongoose.Schema({
     receiver: String,
     createdAt: Date,
     content: String,
-    picture: String
+    picture: String,
+    anon: Boolean,
+    you: Boolean
   }]
 })
 

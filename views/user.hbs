@@ -1,5 +1,6 @@
 <head>
     <link rel='stylesheet' href='/stylesheets/users.css' />
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 </head>
 
 <div id="all">
@@ -30,7 +31,7 @@
         <textarea id="msgContent" name="content" class="form-control" placeholder="Send them a message to make them smile :)"></textarea>
       </div>
       <div class="form-group">
-          <input id="checkBox" type="checkbox"> &nbsp;
+          <input id="checkBox" type="checkbox">
          <label>Reveal your Identity?</label>
       </div>
       <div class="user-buttons">
@@ -61,14 +62,18 @@
                   <div class="message-row-row">
                       <div>
                           <!-- <img id="message-pic" src="./assets/profile.png"> -->
-                          <img id="message-pic" src="{{participant1.picture}}">
+                          {{#if anonymousSender}}
+                            <i class="em em-smiley"></i>
+                          {{else}}
+                            <img id="message-pic" src="{{participant1.picture}}">
+                          {{/if}}
                       </div>
                       <div class="first-contents">
                           <div class="first-message">{{firstMessage.content}}</div>
                           {{#if anonymousSender}}
-                            <div class="first-from">Sent by {{participant1.firstName}} {{participant1.lastName}}</div>
-                          {{else}}
                             <div class="first-from">Sent anonymously at {{firstMessage.createdAt}}.</div>
+                          {{else}}
+                            <div class="first-from">Sent by {{participant1.firstName}} {{participant1.lastName}}</div>
                           {{/if}}
                       </div>
                   </div>
@@ -76,10 +81,17 @@
               </div>
               {{#each this.replies}}
                 <div class="reply">
-                    <!-- <img id="reply-pic" src="./assets/profile.png"> -->
+                  {{#if anon}}
                     <img id="reply-pic" src="{{this.picture}}">
-                    <p>{{#if you}}You{{else}}@{{this.sender}}{{/if}} said {{this.content}}</p><br>
-                    <p>{{this.createdAt}}</p>
+                    {{#if you}}
+                      <img id="reply-pic" src="{{this.picture}}">
+                    {{else}}
+                      <i class="em em-smiley"></i>
+                    {{/if}}
+                  {{else}}
+                    <img id="reply-pic" src="{{this.picture}}">
+                  {{/if}}
+                  <p>{{this.content}}</p><br>
                 </div>
               {{/each}}
               <div class="reply-input">
@@ -99,16 +111,15 @@
               <div class="message-row">
                   <div class="message-row-row">
                       <div>
-                          <!-- <img id="message-pic" src="./assets/profile.png"> -->
-                          <img id="message-pic" src="{{participant1.picture}}">
+                        <img id="message-pic" src="{{participant1.picture}}">
                       </div>
                       <div class="first-contents">
-                          <div class="first-message">{{firstMessage.content}}</div>
-                          {{#if anonymousSender}}
-                            <div class="first-from">Sent by {{participant1.firstName}} {{participant1.lastName}}</div>
-                          {{else}}
-                            <div class="first-from">Sent anonymously at {{firstMessage.createdAt}}.</div>
-                          {{/if}}
+                        <div class="first-message">{{firstMessage.content}}</div>
+                        {{#if anonymousSender}}
+                          <div class="first-from">Sent anonymously at {{firstMessage.createdAt}}.</div>
+                        {{else}}
+                          <div class="first-from">Sent by {{participant1.firstName}} {{participant1.lastName}}</div>
+                        {{/if}}
                       </div>
                   </div>
                   <img class="thread-pic" src="./assets/comment.png">
@@ -116,15 +127,20 @@
               <div class="reply-container">
                 {{#each this.replies}}
                   <div class="reply">
-                      <!-- <img id="reply-pic" src="./assets/profile.png"> -->
+                    {{#if anon}}
                       <img id="reply-pic" src="{{this.picture}}">
-                      <p>{{#if you}}You{{else}}@{{this.sender}}{{/if}} said {{this.content}}</p><br>
-                      <p>{{this.createdAt}}</p>
+                      {{#if you}}
+                        <img id="reply-pic" src="{{this.picture}}">
+                      {{else}}
+                        <i class="em em-smiley"></i>
+                      {{/if}}
+                    {{else}}
+                      <img id="reply-pic" src="{{this.picture}}">
+                    {{/if}}
+                    <p>{{this.content}}</p><br>
                   </div>
                 {{/each}}
               </div>
-
-
               <div class="reply-input">
                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
                 <button id="newReply" type="submit" class="btn">Reply</button>
@@ -149,15 +165,12 @@
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
-    console.log("Thread in : " + thread.firstMessage)
-    console.log("This is it: " + thread.firstMessage.content)
-    // $('#messages').append(message.content)
     var newThread = `  <div id="thread" for="`+thread._id+`">
                         <div id="message">
                             <div class="message-row">
                                 <div class="message-row-row">
                                     <div>
-                                        <img id="message-pic" src="./assets/profile.png">
+                                        <img id="message-pic" src="`+ thread.participant1.picture +`">
                                     </div>
                                     <div class="first-contents">
                                         <div class="first-message">`+thread.firstMessage.content+`</div>
@@ -187,14 +200,15 @@
 
   // Receive emits from routes.js when new REPLY is posted
   socket.on('newReply', function(data) {
-    var {thread, content} = data
     // add message to message thread body
-    console.log("content: " + content);
-    console.log("thread._id: " + thread._id)
+    var picture = data.reply.picture
+    var content = data.reply.content
     var newReply = `<div class="reply">
-                      <p>`+content+`</p>
+                      <img id="reply-pic" src="` + picture + `">
+                      <p>`+ content+`</p>
                     </div>`
-    $("div[for='"+thread._id+"'] #message .reply-container").prepend(newReply);
+    $("div[for='"+data._id+"'] #message .reply-container").prepend(newReply);
+    console.log("DOne")
   })
   socket.on('negativeReply', function() {
 

@@ -134,6 +134,9 @@ module.exports = function(io) {
                     } else {
                         var replyReceiverId = thread.participant1;
                     }
+                    console.log("you", data.user)
+                    console.log("send", replySenderId)
+                    console.log("sender? " + (data.user === replySenderId))
                     User.findById(replyReceiverId, function(err, replyReceiver) {
                       var reply = {
                           receiver: replyReceiver.username,
@@ -141,7 +144,11 @@ module.exports = function(io) {
                           content: content,
                           picture: replySender.picture,
                           createdAt: new Date(),
+                          anon: thread.anonymousSender,
+                          you: data.user === replySenderId
                       }
+
+                      console.log("thread", thread)
 
                       Thread.update({_id: thread._id}, {$push:{replies: reply}}, function(err, update) {
                           if (err) {
