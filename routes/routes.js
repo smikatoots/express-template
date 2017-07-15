@@ -63,9 +63,6 @@ module.exports = function(io) {
           socket.emit('badUser', data.receiver)
         } else {
           var friendid = user._id
-          // create namespace for reciever
-          var nsp = io.of('/'+friendid);
-          // ---------------------------
           var content = data.content;
           var createdAt = new Date();
           var anonymousSender = data.anon
@@ -104,7 +101,7 @@ module.exports = function(io) {
                     .populate('firstMessage')
                     .exec(function(err, populatedThread) {
                       socket.emit('newMessage', populatedThread)
-                      nsp.emit('newReceivedMessage', populatedThread)
+                      socket.broadcast.emit('newReceivedMessage', populatedThread)
                     })
                   }
                 })
