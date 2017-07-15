@@ -62,6 +62,7 @@ module.exports = function(io) {
           var content = data.content;
           var createdAt = new Date();
           var anonymousSender = data.anon
+          console.log('censor(content): ' + censor(content))
           if (censor(content) === "bad word") {
             socket.emit("dirtyMessage");
           } else if (censor(content) === "general negativity") {
