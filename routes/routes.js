@@ -104,8 +104,9 @@ module.exports = function(io) {
     })
 
     socket.on('newReply', function(data) {
-      var threadid = data.threadid;
-      var content = data.content;
+      var threadid = data.threadid; // getting the thread to attach mesage on
+      var content = data.content; // getting reply content
+      var replySenderId = data.user;
       if (censor(content) === "bad word") {
         socket.emit("dirtyReply");
       } else if (censor(content) === "general negativity") {
@@ -121,50 +122,79 @@ module.exports = function(io) {
             console.log("Invalid thread id")
           } else {
 
-            console.log("thread: " + thread)
-            User.findById(thread.participant2, function(err, user) {
-              console.log("name1: " + user.username)
-              if (err) {
-                res.send(err)
-              } else if (!user) {
-                console.log("THAT USER DOESN'T EXIST")
-              } else {
-                var receive = user.username
-
-                User.findById(thread.participant1, function(err, user) {
-                  if (err) {
+            User.findById(replySenderId, function(err, replySender) {
+                if (err) {
                     res.send(err)
-                  } else if (!user) {
-                    console.log("THAT USER DOESN'T EXIST")
-                  } else {
-                    var sender = user.username
-
-                    console.log(user._id)
-                    console.log(data.user)
-                    if (user._id === data.user) {
-                      var you = true;
+                }
+                else {
+                    if (thread.participant1 === replySenderId) {
+                        var replyReceiverId = thread.participant2;
                     } else {
-                      var you = false
+                        var replyReceiverId = thread.participant1;
                     }
-                    var reply = {
-                      sender: sender,
-                      receiver: receive,
-                      content: content,
-                      createdAt: new Date(),
-                      you: you
-                    }
+                    User.findById(replyReceiverId, function(err, replyReceiver) {
+                        var reply = {
+                            receiver: replyReceiver.username,
+                            sender: replySender.username,
+                            content: content,
+                            createdAt: new Date(),
+                            // you: you
+                        }
 
-                    Thread.update({_id: thread._id}, {$push:{replies: reply}}, function(err, update) {
-                      if (err) {
-                        res.send(err)
-                      } else {
-                        socket.emit('newReply', thread)
-                      }
+                        Thread.update({_id: thread._id}, {$push:{replies: reply}}, function(err, update) {
+                          if (err) {
+                            res.send(err)
+                          } else {
+                            socket.emit('newReply', thread)
+                          }
+                        })
+                        console.log(reply);
                     })
-                  }
-                })
-              }
+
+                }
             })
+
+            console.log("thread: " + thread)
+            // User.findById(thread.participant2, function(err, receiver) {
+            //   console.log("name1: " + user.username)
+            //   if (err) {
+            //     res.send(err)
+            //   } else {
+            //     var receiver = receiver.username
+            //
+            //     User.findById(thread.participant1, function(err, sender) {
+            //       if (err) {
+            //         res.send(err)
+            //       } else {
+            //         var sender = sender.username
+            //
+            //         console.log(sender._id)
+            //         console.log(data.user)
+            //         if (user._id === data.user) {
+            //           var you = true;
+            //         } else {
+            //           var you = false
+            //         }
+            //         var reply = {
+            //           sender: sender,
+            //           receiver: receiver,
+            //           content: content,
+            //           createdAt: new Date(),
+            //           you: you
+            //         }
+            //
+            //         Thread.update({_id: thread._id}, {$push:{replies: reply}}, function(err, update) {
+            //           if (err) {
+            //             res.send(err)
+            //           } else {
+            //               console.log(update.replies);
+            //             socket.emit('newReply', thread)
+            //           }
+            //         })
+            //       }
+            //     })
+            //   }
+            // })
           }
         })
       }

@@ -74,7 +74,7 @@
               {{#each this.replies}}
                 <div class="reply">
                     <img id="reply-pic" src="./assets/profile.png">
-                    <p>{{#if you}}You{{else}}@{{this.receiver}}{{/if}} said {{this.content}}</p><br>
+                    <p>{{#if you}}You{{else}}@{{this.sender}}{{/if}} said {{this.content}}</p><br>
                     <p>At {{this.createdAt}}</p>
                 </div>
               {{/each}}

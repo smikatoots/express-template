@@ -41,8 +41,6 @@ module.exports = function(passport) {
         res.status(500).redirect('/signup');
         return;
       }
-      console.log("HIIII?")
-      console.log(user);
       res.redirect('/login');
     });
     // res.send(200)
@@ -56,7 +54,7 @@ module.exports = function(passport) {
   // POST Login page
   router.post('/login', passport.authenticate('local',{
     successRedirect: '/user',
-    failureRedirect: '/login'
+    failureRedirect: '/user'
   }));
 
   // GET Logout page
