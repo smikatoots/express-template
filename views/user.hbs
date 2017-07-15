@@ -70,7 +70,7 @@
                 <p>This is a reply to a message.</p>
             </div>
             <div class="reply-input">
-              <textarea id="msgContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+              <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
               <button id="newReply" type="submit" class="btn">Reply</button>
             </div>
         </div>
@@ -103,6 +103,7 @@
   // Receive emits from routes.js when new REPLY is posted
   socket.on('newReply', function(thread) {
     // add message to message thread body
+    console.log("Replied with " + thread)
   })
   socket.on('negativeReply', function() {
 
@@ -131,10 +132,13 @@
 
   // When Reply button is pushed; See Leo's spec for more information
   $('#newReply').click(function() {
+    event.preventDefault();
+    var bodyMsg = $('#replyContent').val();
+    $('#replyContent').val('')
     socket.emit('newReply', {
-
+      user: "{{user._id}}",
+      content: bodyMsg
     })
   })
-
 
 </script>
