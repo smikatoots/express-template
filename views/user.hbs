@@ -55,7 +55,6 @@
               <div class="message-row">
                   <div class="message-row-row">
                       <div>
-                          <!-- <img id="message-pic" src="./assets/profile.png"> -->
                           {{#if anonymousSender}}
                             <i class="em em-smiley"></i>
                           {{else}}
@@ -78,18 +77,20 @@
                 <div class="reply">
                   {{#if anon}}
                     {{#if you}}
-                      <img id="reply-pic" src="{{this.picture}}">
-                    {{else}}
+                      <!-- <img id="reply-pic" src="{{this.picture}}"> -->
                       <i class="em em-smiley"></i>
+                    {{else}}
+                      <img id="reply-pic" src="{{this.picture}}">
+                      <!-- <i class="em em-smiley"></i> -->
                     {{/if}}
                   {{else}}
-                    {{#if you}}
-                      <img id="reply-pic" src="{{this.picture}}">
-                    {{else}}
-                      <img id="reply-pic" src="/assets/profile.png"></img>
-                    {{/if}}
+                    <!-- {{#if you}} -->
+                    <img id="reply-pic" src="{{this.picture}}">
+                    <!-- {{else}}
+                      <img id="reply-pic" src="./assets/profile.png"> -->
+                    <!-- {{/if}} -->
                   {{/if}}
-                    <p>{{this.content}}</p><br>
+                    <p> {{this.content}}</p><br>
                 </div>
               {{/each}}
             </div>
@@ -124,19 +125,7 @@
               <div class="reply-container {{this._id}}">
                 {{#each this.replies}}
                   <div class="reply">
-                    {{#if anon}}
-                      {{#if you}}
-                        <img id="reply-pic" src="{{this.picture}}">
-                      {{else}}
-                        <i class="em em-smiley"></i>
-                      {{/if}}
-                    {{else}}
-                      {{#if you}}
-                        <img id="reply-pic" src="{{this.picture}}">
-                      {{else}}
-                        <img id="reply-pic" src="./assets/profile.png"></img>
-                      {{/if}}
-                    {{/if}}
+                    <img id="reply-pic" src="{{this.picture}}">
                     <p>{{this.content}}</p><br>
                   </div>
                 {{/each}}
@@ -158,6 +147,7 @@
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
+    console.log("sending messageeee")
     if (thread.anonymousSender) {
       var newThread = `  <div id="thread" for="`+thread._id+`">
                           <div id="message">
@@ -327,20 +317,13 @@
         receiver: recipient,
         anon: anon
       })
-      // socket.broadcast.emit('newMessage', {
-      //   user: "{{user._id}}",
-      //   content: bodyMsg,
-      //   receiver: recipient,
-      //   anon: anon
-      // })
     })
     // When Reply button is pushed; See Leo's spec for more information
     $('.messagebox').on('click', "#newReply", function() {
       event.preventDefault();
       var bodyMsg = $(this).parent().children('#replyContent').val();
-      // $('#replyContent').val('')
       var threadid = $(this).parent().parent().parent().attr('for')
-      console.log(threadid)
+      $(this).parent().children('#replyContent').val('');
       socket.emit('newReply', {
         user: "{{user._id}}",
         threadid: threadid,
