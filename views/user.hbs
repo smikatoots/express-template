@@ -93,10 +93,10 @@
                     <p>{{this.content}}</p><br>
                 </div>
               {{/each}}
-              </div>
+            </div>
               <div class="reply-input">
                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
-                <button id="newReply" type="submit" class="btn">Reply</button>
+                <button id="newReply" type="submit" class="reply-input btn">Reply</button>
               </div>
           </div>
       </div>
@@ -292,7 +292,8 @@
     alert("Be more positive!")
   })
   socket.on('dirtyReply', function() {
-    alert("That's nasty!")
+    alert("That's nasty!");
+    $('.reply-input').css('animation', 'wiggle 2s')
   })
   $(document).ready(function() {
     $('.receivedBlock').show();

@@ -99,7 +99,7 @@ module.exports = function(io) {
                     Thread.findById(thread._id).populate("participant2").populate("participant1").populate('firstMessage').exec(function(err, populatedThread) {
                       console.log("HI?")
                       socket.emit('newMessage', populatedThread)
-                      io.broadcast.emit('newReceivedMessage', populatedThread)
+                      socket.broadcast.emit('newReceivedMessage', populatedThread)
                     })
                   }
                 })
