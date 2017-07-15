@@ -122,7 +122,7 @@ module.exports = function(io) {
       } else if (censor(content) === "section of high negativity") {
         socket.emit("negativeReply");
       } else if (censor(content) === "all good") {
-        Thread.findById(threadid, function(err, thread) {
+        Thread.findById(threadid).populate('participant1').exec(function(err, thread) {
           if (err) {
             console.log("Could not identify thread to post reply for", err)
           } else if (!thread) {
@@ -134,8 +134,8 @@ module.exports = function(io) {
                     res.send(err)
                 }
                 else {
-                    console.log("replySender: " + replySender.username)
-                    if (thread.participant1 === replySenderId) {
+
+                    if (String(thread.participant1._id) === replySenderId) {
                         var replyReceiverId = thread.participant2;
                         var you = true;
                     } else {
