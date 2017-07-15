@@ -44,11 +44,8 @@ app.set('view engine', 'hbs');
 app.use(logger('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-<<<<<<< HEAD
-app.use(multer({dest: './files'}).single('picture'))
-=======
+
 app.use(multer({dest: './public/files'}).single('picture'))
->>>>>>> d58e4f2fec6960172078603b88d9cccbbd049ed1
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
