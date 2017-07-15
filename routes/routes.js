@@ -35,8 +35,6 @@ module.exports = function(io) {
       var threads = [];
       threads.push(Thread.find({participant2: req.user._id}).populate("participant1"));
       threads.push(Thread.find({participant1: req.user._id}).populate("participant2"));
-      console.log("hi")
-      console.log("pic" + req.user.picture)
       Promise.all(threads)
       .then(function(threads) {
         res.render('user', {
@@ -112,7 +110,7 @@ module.exports = function(io) {
       } else if (censor(content) === "section of high negativity") {
         socket.emit("negativeReply");
       } else if (censor(content) === "all good") {
-
+        console.log("HELLIFSDO?")
         Thread.findById(threadid, function(err, thread) {
           if (err) {
             console.log("Could not identify thread to post reply for", err)
