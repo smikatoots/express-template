@@ -36,6 +36,10 @@ body {
     color: #93DCE3;
 }
 
+.friendpicker {
+    width: 100%;
+}
+
 .messagebox {
     width: 800px;
     height: 100vh;
@@ -68,10 +72,11 @@ button {
     background-color:#FFCD66;
     color: white;
     font-family: 'Oswald';
+    outline: 0;
 }
 
 button:focus {
-    outline:0;
+    outline: 0;
 }
 
 .toggle-sent, .toggle-received {
@@ -166,6 +171,10 @@ button:focus {
 
 .thread-pic {
     height: 30px;
+}
+
+#newReply {
+    margin-left: 10px;
 }
 
 #msgContent {
