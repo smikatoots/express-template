@@ -116,7 +116,8 @@
   $('#newMessage').click(function(event) {
     event.preventDefault();
     var bodyMsg = $('#msgContent').val();
-    var to = $("option").is(":selected"));
+    // to is username of recipient
+    var recipient = $(".friendpicker option").is(":selected")).text().slice(1);
     var anon = $('#anon').is(":checked");
     $('#msgContent').val('')
     $('#recipient').val('')
@@ -124,7 +125,7 @@
     socket.emit('newMessage', {
       user: "{{user._id}}",
       content: bodyMsg,
-      receiver: to,
+      receiver: recipient,
       anon: anon
     })
   })
