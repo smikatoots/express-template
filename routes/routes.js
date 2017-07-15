@@ -96,6 +96,7 @@ module.exports = function(io) {
                     // emit new message event
                     Thread.findById(thread._id).populate("participant2").populate("participant1").populate('firstMessage').exec(function(err, populatedThread) {
                       socket.emit('newMessage', populatedThread)
+                      console.log("RECEIVE MESSAGE")
                       socket.broadcast.emit('newReceivedMessage', populatedThread)
                     })
                   }
@@ -136,15 +137,22 @@ module.exports = function(io) {
                         var replyReceiverId = thread.participant1;
                     }
                     User.findById(replyReceiverId, function(err, replyReceiver) {
-                      var reply = {
-                          receiver: replyReceiver.username,
-                          sender: replySender.username,
-                          content: content,
-                          picture: replySender.picture,
-                          createdAt: new Date(),
-                          anon: thread.anonymousSender,
-                          you: data.user === replySenderId
-                      }
+                      Pic.findOne({username: replySender.username}, function(err, pic) {
+                        if (err) {
+                          res.send(err)
+                        } else {
+                          var reply = {
+                              receiver: replyReceiver.username,
+                              sender: replySender.username,
+                              content: content,
+                              // picture: replySender.picture,
+                              picture: pic.url,
+                              createdAt: new Date(),
+                              anon: thread.anonymousSender,
+                              you: data.user === replySenderId
+                          }
+                        }
+                      })
 
                       console.log("thread", thread)
 
