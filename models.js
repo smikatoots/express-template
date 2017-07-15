@@ -18,6 +18,8 @@ var userSchema = mongoose.Schema({
   positivityScore: Number
 });
 
+
+
 var messageSchema = mongoose.Schema({
   sender: {
     type: mongoose.Schema.ObjectId,

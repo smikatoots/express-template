@@ -46,10 +46,11 @@ module.exports = function(io) {
           friends: allUsers,
         });
       })
-    }).catch(function(err) {
-      console.log(err)
-    })
-  });
+      .catch(function(err) {
+        console.log(err)
+      })
+    });
+  })
 
   io.on('connection', function(socket) {
 
@@ -93,7 +94,9 @@ module.exports = function(io) {
                     console.log("Error while creating thread", err)
                   } else {
                     // emit new message event
-                    socket.emit('newMessage', thread)
+                    Thread.findById(thread._id).populate("participant2").populate('firstMessage').exec(function(err, populatedThread) {
+                      socket.emit('newMessage', populatedThread)
+                    })
                   }
                 })
               }
@@ -201,12 +204,6 @@ module.exports = function(io) {
     });
   })
 
-  // router.post('/testing', function(req, res) {
-  //   console.log("hello");
-  //   console.log("----body", req.body);
-  //   console.log("file: ", req.file);
-  //   res.redirect('/signup')
-  // })
   return router
 }
   ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
