@@ -50,30 +50,40 @@
       <button type="submit" class="toggle-received">Received</button>
       <button type="submit" class="toggle-sent">Sent</button>
     </div>
-    <div id="thread">
-        <div id="message">
-            <div class="message-row">
-                <div class="message-row-row">
-                    <div>
-                        <img id="message-pic" src="./assets/profile.png">
-                    </div>
-                    <div class="first-contents">
-                        <div class="first-message">This is a positive message placeholder. Lol.</div>
-                        <div class="first-from">Sent anonymously.</div>
-                    </div>
+
+
+    {{#each received}}
+      <div id="thread">
+          <div id="message">
+              <div class="message-row">
+                  <div class="message-row-row">
+                      <div>
+                          <img id="message-pic" src="./assets/profile.png">
+                      </div>
+                      <div class="first-contents">
+                          <div class="first-message">{{firstMessage.content}}</div>
+                          {{#if anonymousSender}}
+                            <div class="first-from">Sent anonymously.</div>
+                          {{else}}
+                            <div class="first-from">Sent by {{participant1.firstName}} {{participant1.lastName}}</div>
+                          {{/if}}
+                      </div>
+                  </div>
+                  <img class="thread-pic" src="./assets/comment.png">
+              </div>
+              {{#each replies}}
+                <div class="reply">
+                    <img id="reply-pic" src="./assets/profile.png">
+                    <p>{{content}}</p>
                 </div>
-                <img class="thread-pic" src="./assets/comment.png">
-            </div>
-            <div class="reply">
-                <img id="reply-pic" src="./assets/profile.png">
-                <p>This is a reply to a message.</p>
-            </div>
-            <div class="reply-input">
-              <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
-              <button id="newReply" type="submit" class="btn">Reply</button>
-            </div>
-        </div>
-    </div>
+              {{/each}}
+              <div class="reply-input">
+                <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+                <button id="newReply" type="submit" class="btn">Reply</button>
+              </div>
+          </div>
+      </div>
+    {{/each}}
 
   </br>
 </div>
@@ -90,8 +100,8 @@
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
-    console.log("Thread in : " + thread.firstMessage.content)
-    console.log("This is it: " + message.content)
+    console.log("Thread in : " + thread.firstMessage)
+    console.log("This is it: " + thread.firstMessage.content)
     $('#messages').append(message.content)
   })
   socket.on('negativeMessage', function() {
