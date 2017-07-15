@@ -9,6 +9,7 @@ var userSchema = mongoose.Schema({
   location: String,
   affiliation: String,
   birthday: Date,
+  picture: String,
   friends: [{
     type: mongoose.Schema.ObjectId,
     ref: "User"
