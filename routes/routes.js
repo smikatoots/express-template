@@ -108,7 +108,9 @@ module.exports = function(io) {
                     console.log("Error while creating thread", err)
                   } else {
                     // emit new message event
-                    socket.emit('newMessage', thread)
+                    Thread.findById(thread._id).populate("participant2").populate('firstMessage').exec(function(err, populatedThread) {
+                      socket.emit('newMessage', populatedThread)
+                    })
                   }
                 })
               }
@@ -161,11 +163,14 @@ module.exports = function(io) {
                       createdAt: new Date(),
                     }
 
-                    Thread.update({_id: thread._id}, {$push:{replies: reply}}, function(err, update) {
+                    Thread.update({_id: thread._id}, {$push:{replies: reply}})
+                    .populate('replies')
+                    .exec(function(err, update) {
                       if (err) {
                         res.send(err)
                       } else {
-                        socket.emit('newReply', thread)
+                        console.log('content: ' + content)
+                        socket.emit('newReply', {thread: thread, content: content})
                       }
                     })
                   }

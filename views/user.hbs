@@ -105,12 +105,14 @@
                   </div>
                   <img class="thread-pic" src="./assets/comment.png">
               </div>
-              {{#each this.replies}}
-                <div class="reply">
-                    <img id="reply-pic" src="./assets/profile.png">
-                    <p>{{this.content}}</p>
-                </div>
-              {{/each}}
+              <div class="reply-container">
+                {{#each this.replies}}
+                  <div class="reply">
+                      <img id="reply-pic" src="./assets/profile.png">
+                      <p>{{this.content}}</p>
+                  </div>
+                {{/each}}
+              </div>
               <div class="reply-input">
                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
                 <button id="newReply" type="submit" class="btn">Reply</button>
@@ -137,8 +139,33 @@
     console.log("Thread in : " + thread.firstMessage)
     console.log("This is it: " + thread.firstMessage.content)
     // $('#messages').append(message.content)
+    var newThread = `  <div id="thread" for="`+thread._id+`">
+                        <div id="message">
+                            <div class="message-row">
+                                <div class="message-row-row">
+                                    <div>
+                                        <img id="message-pic" src="./assets/profile.png">
+                                    </div>
+                                    <div class="first-contents">
+                                        <div class="first-message">`+thread.firstMessage.content+`</div>
+
+                                          <div class="first-from">Sent to `+thread.participant2.firstName+` anonymously at `+thread.firstMessage.createdAt+`.</div>
+                                    </div>
+                                </div>
+                                <img class="thread-pic" src="./assets/comment.png">
+                            </div>
+                            <div class="reply-container">
+                            </div>
+                            <div class="reply-input">
+                              <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+                              <button id="newReply" type="submit" class="btn">Reply</button>
+                            </div>
+                        </div>
+                    </div>`
+    $('.toggle').after(newThread);
   })
   socket.on('negativeMessage', function() {
+
 
   })
   socket.on('dirtyMessage', function() {
@@ -146,9 +173,15 @@
   })
 
   // Receive emits from routes.js when new REPLY is posted
-  socket.on('newReply', function(thread) {
+  socket.on('newReply', function(data) {
+    var {thread, content} = data
     // add message to message thread body
-    console.log("Replied with " + thread.firstMessage)
+    console.log("content: " + content);
+    console.log("thread._id: " + thread._id)
+    var newReply = `<div class="reply">
+                      <p>`+content+`</p>
+                    </div>`
+    $("div[for='"+thread._id+"'] #message .reply-container").prepend(newReply);
   })
   socket.on('negativeReply', function() {
 
