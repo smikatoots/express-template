@@ -2,7 +2,6 @@
     <link rel='stylesheet' href='/stylesheets/users.css' />
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 </head>
-
 <div id="all">
 <div class="userbox changer">
     <div class="profile">
@@ -43,16 +42,12 @@
           </form>
       </div>
     </form>
-
 </div>
-
 <div class="messagebox">
     <div class="toggle">
       <button id="receiveBtn" type="submit" class="toggle-received">Received</button>
       <button id="sendBtn" type="submit" class="toggle-sent">Sent</button>
     </div>
-
-
   <div class="receivedBlock">
     {{#each received}}
       <div id="thread" for="{{this._id}}">
@@ -88,9 +83,14 @@
                       <i class="em em-smiley"></i>
                     {{/if}}
                   {{else}}
-                    <img id="reply-pic" src="{{this.picture}}">
+                    {{#if you}}
+                      <img id="reply-pic" src="{{this.picture}}">
+                    {{else}}
+                      <img id="reply-pic" src="/assets/profile.png"></img>
+                      HI
+                    {{/if}}
                   {{/if}}
-                  <p>{{this.content}}</p><br>
+                    <p>{{this.content}}</p><br>
                 </div>
               {{/each}}
               </div>
@@ -102,7 +102,6 @@
       </div>
     {{/each}}
   </div>
-
   <div class="sentBlock">
     {{#each sent}}
       <div id="thread" for="{{this._id}}">
@@ -133,7 +132,11 @@
                         <i class="em em-smiley"></i>
                       {{/if}}
                     {{else}}
-                      <img id="reply-pic" src="{{this.picture}}">HI</img>
+                      {{#if you}}
+                        <img id="reply-pic" src="{{this.picture}}">
+                      {{else}}
+                        <img id="reply-pic" src="../public/assets/profile.png"></img>
+                      {{/if}}
                     {{/if}}
                     <p>{{this.content}}</p><br>
                   </div>
@@ -147,22 +150,15 @@
       </div>
     {{/each}}
   </div>
-
   </br>
 </div>
-
-
-
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-
 <script>
   var socket = io('localhost:3000');
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
-    // $('#messages').append(message.content)
     if (thread.anonymousSender) {
       var newThread = `  <div id="thread" for="`+thread._id+`">
                           <div id="message">
@@ -173,7 +169,6 @@
                                       </div>
                                       <div class="first-contents">
                                           <div class="first-message">`+thread.firstMessage.content+`</div>
-
                                             <div class="first-from">Sent to `+thread.participant2.firstName+` anonymously at `+thread.firstMessage.createdAt+`.</div>
                                       </div>
                                   </div>
@@ -197,7 +192,6 @@
                                       </div>
                                       <div class="first-contents">
                                           <div class="first-message">`+thread.firstMessage.content+`</div>
-
                                             <div class="first-from">Sent to `+thread.participant2.firstName+` at `+thread.firstMessage.createdAt+`.</div>
                                       </div>
                                   </div>
@@ -217,7 +211,6 @@
   socket.on('negativeMessage', function() {
       console.log("negativeMessage, add some positivity, friend!");
   })
-
   socket.on('dirtyMessage', function() {
     console.log("dirty message! :(")
     $('.userbox').css('animation', 'wiggle 2s')
@@ -235,7 +228,6 @@
                                       </div>
                                       <div class="first-contents">
                                           <div class="first-message">`+thread.firstMessage.content+`</div>
-
                                             <div class="first-from">Sent anonymously at `+thread.firstMessage.createdAt+`.</div>
                                       </div>
                                   </div>
@@ -259,7 +251,6 @@
                                       </div>
                                       <div class="first-contents">
                                           <div class="first-message">`+thread.firstMessage.content+`</div>
-
                                             <div class="first-from">Sent to you by `+thread.participant1.firstName+` at `+thread.firstMessage.createdAt+`.</div>
                                       </div>
                                   </div>
@@ -276,14 +267,12 @@
     }
     $('.receivedBlock').prepend(newThread);
   })
-
   socket.on('negativeMessage', function() {
     alert("Start a happi trend!")
   })
   socket.on('dirtyMessage', function() {
     alert("Don't bring up nasty conversation!")
   })
-
   // Receive emits from routes.js when new REPLY is posted
   socket.on('newReply', function(data) {
     var reply = data.reply;
@@ -305,17 +294,10 @@
   socket.on('dirtyReply', function() {
     alert("That's nasty!")
   })
-
   $(document).ready(function() {
     $('.receivedBlock').show();
     $('.sentBlock').hide();
-    $('.reply-container').hide()
-
     // When New Message button is pushed
-    $('.messagebox').on('click', '.thread-pic', function(event) {
-        $(this).parent().parent().children('.reply-container').slideToggle(1000);
-    })
-
     $('#newMessage').click(function(event) {
       event.preventDefault();
       var bodyMsg = $('#msgContent').val();
@@ -337,7 +319,6 @@
       //   anon: anon
       // })
     })
-
     // When Reply button is pushed; See Leo's spec for more information
     $('.messagebox').on('click', "#newReply", function() {
       event.preventDefault();
@@ -351,21 +332,17 @@
         content: bodyMsg
       })
     })
-
     $('#receiveBtn').click(function() {
       $('.receivedBlock').show();
       $('.sentBlock').hide();
       $('.toggle-received').css('background-color', '#FFCD66').css('color', 'white');
       $('.toggle-sent').css('background-color', 'transparent').css('color', 'lightgrey');
     })
-
     $('#sendBtn').click(function() {
       $('.receivedBlock').hide();
       $('.sentBlock').show();
       $('.toggle-sent').css('background-color', '#FFCD66').css('color', 'white');
       $('.toggle-received').css('background-color', 'transparent').css('color', 'lightgrey');
     })
-
   })
-
 </script>
