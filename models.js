@@ -49,12 +49,13 @@ var threadSchema = mongoose.Schema({
     ref: "Message"
   },
   replies: [{
-    // type: mongoose.Schema.ObjectId,
-    // ref: "Message"
     sender: String,
     receiver: String,
     createdAt: Date,
-    content: String
+    content: String,
+    picture: String,
+    anon: Boolean,
+    you: Boolean
   }]
 })
 
