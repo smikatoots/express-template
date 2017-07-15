@@ -53,13 +53,15 @@
 
 
   <div class="receivedBlock">
+    <h5>received</h5>
     {{#each received}}
       <div id="thread" for="{{this._id}}">
           <div id="message">
               <div class="message-row">
                   <div class="message-row-row">
                       <div>
-                          <img id="message-pic" src="./assets/profile.png">
+                          <!-- <img id="message-pic" src="./assets/profile.png"> -->
+                          <img id="message-pic" src="{{participant1.picture}}">
                       </div>
                       <div class="first-contents">
                           <div class="first-message">{{firstMessage.content}}</div>
@@ -74,9 +76,10 @@
               </div>
               {{#each this.replies}}
                 <div class="reply">
-                    <img id="reply-pic" src="./assets/profile.png">
+                    <!-- <img id="reply-pic" src="./assets/profile.png"> -->
+                    <img id="reply-pic" src="{{this.picture}}">
                     <p>{{#if you}}You{{else}}@{{this.sender}}{{/if}} said {{this.content}}</p><br>
-                    <p>At {{this.createdAt}}</p>
+                    <p>{{this.createdAt}}</p>
                 </div>
               {{/each}}
               <div class="reply-input">
@@ -89,13 +92,15 @@
   </div>
 
   <div class="sentBlock">
+    <h5>sent</h5>
     {{#each sent}}
       <div id="thread" for="{{this._id}}">
           <div id="message">
               <div class="message-row">
                   <div class="message-row-row">
                       <div>
-                          <img id="message-pic" src="./assets/profile.png">
+                          <!-- <img id="message-pic" src="./assets/profile.png"> -->
+                          <img id="message-pic" src="{{participant1.picture}}">
                       </div>
                       <div class="first-contents">
                           <div class="first-message">{{firstMessage.content}}</div>
@@ -111,9 +116,10 @@
               <div class="reply-container">
                 {{#each this.replies}}
                   <div class="reply">
-                      <img id="reply-pic" src="./assets/profile.png">
+                      <!-- <img id="reply-pic" src="./assets/profile.png"> -->
+                      <img id="reply-pic" src="{{this.picture}}">
                       <p>{{#if you}}You{{else}}@{{this.sender}}{{/if}} said {{this.content}}</p><br>
-                      <p>{{this.content}}</p>
+                      <p>{{this.createdAt}}</p>
                   </div>
                 {{/each}}
               </div>
