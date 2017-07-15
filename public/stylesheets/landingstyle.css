@@ -55,7 +55,7 @@ body {
   height: 100px;
   position: absolute;
   top: 20%;
-  animation: float 6s ease-in-out infinite;
+  animation: float 9s ease-in-out infinite;
 }
 
 .cloud2{
@@ -71,7 +71,7 @@ body {
   position: absolute;
   left: 26%;
   top: 13%;
-  animation: float 6s ease-in-out infinite;
+  animation: float 7s ease-in-out infinite;
 }
 
 .cloud4{
@@ -79,7 +79,7 @@ body {
   position: absolute;
   left: 75%;
   top: 13%;
-  animation: float 6s ease-in-out infinite;
+  animation: float 8s ease-in-out infinite;
 }
 
 .blue{

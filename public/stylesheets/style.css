@@ -7,7 +7,12 @@ body {
 }
 
 #title {
-    cursor: default;
+    cursor: pointer;
+    color: white;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 #navbar {

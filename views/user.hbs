@@ -218,14 +218,14 @@
   })
   socket.on('negativeMessage', function() {
 console.log("negativeMessage, add some positivity, friend!");
-  $('.transform').toggleClass('transform-active');
 
 })
 
   socket.on('dirtyMessage', function() {
     console.log("dirty message! :(")
-    $('.userbox').css('background-color', "#f44242");
-    })
+    $('.userbox').css('animation', 'wiggle 2s')
+
+})
 
   socket.on('newReceivedMessage', function(thread) {
     console.log('receiving message!!!')
@@ -314,8 +314,13 @@ console.log("negativeMessage, add some positivity, friend!");
   $(document).ready(function() {
     $('.receivedBlock').show();
     $('.sentBlock').hide();
+    $('.reply-container').hide()
 
     // When New Message button is pushed
+    $('.messagebox').on('click', '.thread-pic', function(event) {
+        $(this).parent().parent().children('.reply-container').slideToggle(1000);
+    })
+
     $('#newMessage').click(function(event) {
       event.preventDefault();
       var bodyMsg = $('#msgContent').val();
