@@ -288,14 +288,14 @@
   socket.on('negativeReply', function() {
     // $('#newReply').click(function(event) {
       $('.messagebox').on('click', '#newReply', function(event){
-        $(this).parent().css('animation', 'wiggle 2s');
+        $(this).parent().parent().css('animation', 'wiggle 2s');
       })
     // })
   // $('.reply-input').css('animation', 'wiggle 2s')
   })
   socket.on('dirtyReply', function() {
     $('.messagebox').on('click', '#newReply', function(event){
-      $(this).parent().css('animation', 'wiggle 2s');
+      $(this).parent().parent().css('animation', 'wiggle 2s');
     })
   })
   $(document).ready(function() {
