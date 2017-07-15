@@ -46,10 +46,11 @@ module.exports = function(io) {
           friends: allUsers,
         });
       })
-    }).catch(function(err) {
-      console.log(err)
-    })
-  });
+      .catch(function(err) {
+        console.log(err)
+      })
+    });
+  })
 
   io.on('connection', function(socket) {
 
@@ -139,13 +140,12 @@ module.exports = function(io) {
                   } else {
                     var sender = user.username
 
-                    console.log(user._id)
-                    console.log(data.user)
                     if (user._id === data.user) {
                       var you = true;
                     } else {
                       var you = false
                     }
+                    console.log("YOU: " + you)
                     var reply = {
                       sender: sender,
                       receiver: receive,
@@ -171,12 +171,6 @@ module.exports = function(io) {
     });
   })
 
-  // router.post('/testing', function(req, res) {
-  //   console.log("hello");
-  //   console.log("----body", req.body);
-  //   console.log("file: ", req.file);
-  //   res.redirect('/signup')
-  // })
   return router
 }
   ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
