@@ -3,9 +3,14 @@ var filter = new Filter({ placeHolder: '~'});
 filter.addWords(['ugly', 'gross']);
 var sentiment = require('sentiment')
 
+var User = ('./models.js').User
 
-
-module.export = function (text) {
+module.export = function (text, userid) {
+  User.update({_id: userid}, {$inc: {postivityScore: sentiment(text).comparitives}}, function(err) {
+    if (err) {
+      console.log(err)
+    }
+  })
   var words = text.split(' ')
   var bundles = [];
   words.forEach(function(word) {
@@ -17,6 +22,7 @@ module.export = function (text) {
   if (filter.clean(text).includes('~')) {
     // emit dirty event
     return "bad word"
+
   }
   if (sentiment(text).score < 0) {
     // emit non-positive event
