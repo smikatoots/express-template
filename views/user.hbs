@@ -181,7 +181,7 @@
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -205,7 +205,7 @@
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -235,7 +235,7 @@
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -259,7 +259,7 @@
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -280,30 +280,19 @@
 
   // Receive emits from routes.js when new REPLY is posted
   socket.on('newReply', function(data) {
-<<<<<<< HEAD
-      console.log(data);
     var reply = data.reply;
     var thread = data.thread;
     // add message to message thread body
     console.log("CONTENT: " + reply.content);
     console.log("T._id: " + thread._id)
-    var newReply = `<div class="reply">
-                        <img id="reply-pic" src="./assets/profile.png">
-                        <p>{{#if you}}You{{else}}@{{this.sender}}{{/if}} said {{this.content}}</p><br>
-                        <p>${reply.content}</p>
-                    </div>`
-    // $(".sentBlock").attr('for', `${thread._id}`).find('.reply-container').prepend(newReply);
-    $(`.reply-container`).prepend(newReply);
-=======
-    // add message to message thread body
     var picture = data.reply.picture
     var content = data.reply.content
     var newReply = `<div class="reply">
                       <img id="reply-pic" src="` + picture + `">
                       <p>`+ content+`</p>
                     </div>`
-    $("div[for='"+data._id+"'] #message .reply-container").prepend(newReply);
->>>>>>> 917a7590b5d359c30f138220710a31c0d885b03e
+    // $(".sentBlock").attr('for', `${thread._id}`).find('.reply-container').prepend(newReply);
+    $(`.${thread._id}`).append(newReply);
   })
   socket.on('negativeReply', function() {
     alert("Be more positive!")
@@ -350,11 +339,15 @@
     $('#receiveBtn').click(function() {
       $('.receivedBlock').show();
       $('.sentBlock').hide();
+      $('toggle-sent').css('background-color', '#FFCD66');
+      $('toggle-received').css('background-color', 'transparent');
     })
 
     $('#sendBtn').click(function() {
       $('.receivedBlock').hide();
       $('.sentBlock').show();
+      $('toggle-received').css('background-color', '#FFCD66').css('color', 'white');
+      $('toggle-sent').css('background-color', 'transparent').css('color', 'lightgrey');
     })
 
   })
