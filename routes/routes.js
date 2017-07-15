@@ -33,8 +33,8 @@ module.exports = function(io) {
   router.get('/user', function(req, res) {
     User.find().then(function(allUsers) {
       var threads = [];
-      threads.push(Thread.find({participant2: req.user._id}).populate("participant1"));
-      threads.push(Thread.find({participant1: req.user._id}).populate("participant2"));
+      threads.push(Thread.find({participant2: req.user._id}).populate("participant1").populate("firstMessage").populate("replies"));
+      threads.push(Thread.find({participant1: req.user._id}).populate("participant2").populate("firstMessage").populate("replies"));
       Promise.all(threads)
       .then(function(threads) {
         res.render('user', {
