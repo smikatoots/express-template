@@ -297,7 +297,16 @@
   $(document).ready(function() {
     $('.receivedBlock').show();
     $('.sentBlock').hide();
+    $('.reply-container').hide()
+    $('.reply-input').hide()
     // When New Message button is pushed
+
+    $('.messagebox').on('click', '.thread-pic', function(event) {
+        $(this).parent().parent().children('.reply-container').slideToggle(800);
+        $(this).parent().parent().children('.reply-input').slideToggle(800);
+
+    })
+
     $('#newMessage').click(function(event) {
       event.preventDefault();
       var bodyMsg = $('#msgContent').val();
