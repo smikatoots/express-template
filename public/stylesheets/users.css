@@ -35,7 +35,6 @@ body {
     width: 300px;
     height: 380px;
     color: #93DCE3;
-
     /*animation: fadeIt 1s infinite;*/
 }
 
@@ -206,23 +205,23 @@ button:focus {
 
 @keyframes wiggle {
    0% { transform: rotate(0deg);
-        background-color: #FFFFFF;
+        background-color: #FFFFFF;}
   20% { transform: rotate(0deg);
-        background-color: #FF8784}
+        background-color: #FF8784;}
   25% { transform: rotate(5deg);
-        background-color: #F44B42}
+        background-color: #F44B42;}
   35% { transform: rotate(-5deg);
-        background-color: #F44B42}
+        background-color: #F44B42;}
   40% { transform: rotate(0deg);
-        background-color: #F44B42}
+        background-color: #F44B42;}
   45% { transform: rotate(5deg);
-        background-color: #F44B42}
+        background-color: #F44B42;}
   50% { transform: rotate(-5deg);
-        background-color: #FF8784}
+        background-color: #FF8784;}
   55% { transform: rotate(0deg);
-        background-color: #FFFFFF}
+        background-color: #FFFFFF;}
  100% { transform: rotate(0deg);
-        background-color: #FFFFFF}
+        background-color: #FFFFFF;}
 }
 
 
