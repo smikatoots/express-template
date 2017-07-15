@@ -16,23 +16,19 @@ module.export = function (text) {
 
   if (filter.clean(text).includes('~')) {
     // emit dirty event
-    console.log("bad word")
-    return false
+    return "bad word"
   }
   if (sentiment(text).score < 0) {
     // emit non-positive event
-    console.log("general negativity (score: " + sentiment(text).score + ")")
-    return false
+    return "general negativity"
   } else {
   }
   var bundle;
   for (var i = 0; i < bundles.length; i++) {
     bundle = bundles[i]
     if (sentiment(bundle).score < -2) {
-      console.log("section of high negativity: \"" + bundle + "\" (score: " + sentiment(bundle).score + ')')
-      return false
+      return "section of high negativity"
     }
   }
-  console.log("all good")
-  return true
+  return "all good"
 }

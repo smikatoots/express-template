@@ -5,9 +5,7 @@ var app = require('../app');
 var User = models.User;
 var Message = models.Message;
 var Thread = models.Thread;
-var Filter = require('bad-words')
-var filter = new Filter({ placeHolder: '~'});
-var sentiment = require('sentiment')
+var censor = require('../censor')
 
 //////////////////// LANDING PAGE WITH OPTIONS FOR SIGNUP AND LOGIN ////////////////////////////////
 // Users who are not logged in can see these routes
@@ -59,41 +57,40 @@ module.exports = function(io) {
           var content = data.content;
           var createdAt = new Date();
           var anonymousSender = data.anon
-          if (filter.clean(content).includes('~')) {
-            // emit dirty event
-            socket.emit("dirtyMessage")
+          if (censor(content) === "bad word") {
+            socket.emit("dirtyMessage");
+          } else if (censor(content) === "general negativity") {
+            socket.emit("negativeMessage");
+          } else if (censor(content) === "section of high negativity") {
+            socket.emit("negativeMessage");
+          } else if (censor(content) === "all good") {
+            new Message({
+              sender: data.user,
+              receiver: friendid,
+              content: content,
+              createdAt: createdAt,
+              read: false
+            }).save(function(err, message) {
+              if (err) {
+                console.log("Error while sending message", err)
+              } else {
+                new Thread({
+                  participant1: data.user,
+                  anonymousSender: anonymousSender,
+                  participant2: friendid,
+                  firstMessage: message._id,
+                  replies: []
+                }).save(function(err, thread) {
+                  if (err) {
+                    console.log("Error while creating thread", err)
+                  } else {
+                    // emit new message event
+                    socket.emit('newMessage', thread)
+                  }
+                })
+              }
+            })
           }
-          if (sentiment(content).score < 5) {
-            // emit non-positive event
-            socket.emit("negativeMessage")
-          }
-
-          new Message({
-            sender: data.user,
-            receiver: friendid,
-            content: content,
-            createdAt: createdAt,
-            read: false
-          }).save(function(err, message) {
-            if (err) {
-              console.log("Error while sending message", err)
-            } else {
-              new Thread({
-                participant1: data.user,
-                anonymousSender: anonymousSender,
-                participant2: friendid,
-                firstMessage: message._id,
-                replies: []
-              }).save(function(err, thread) {
-                if (err) {
-                  console.log("Error while creating thread", err)
-                } else {
-                  // emit new message event
-                  socket.emit('newMessage', thread)
-                }
-              })
-            }
-          })
         }
       })
     })
@@ -101,35 +98,35 @@ module.exports = function(io) {
     socket.on('newReply', function(data) {
       var threadid = data.threadid;
       var content = data.content;
-      if (filter.clean(content).includes('~')) {
-        // emit dirty event
-        socket.emit("dirtyReply")
-      }
-      if (sentiment(content).score < 5) {
-        // emit non-positive event
-        socket.emit("negativeReply")
-      }
-      Thread.findById(threadid, function(err, thread) {
-        if (err) {
-          console.log("Could not identify thread to post reply for", err)
-        } else if (!thread) {
-          console.log("Invalid thread id")
-        } else {
-          new Message({
-            sender: data.user._id,
-            receiver: thread.participant2,
-            content: content,
-            createdAt: new Date(),
-            read: false
-          }).save(function(err, message) {
-            thread.replies.push(message)
-            socket.emit('newReply', message)
-          })
-        }
-      })
-    })
-  });
+      if (censor(content) === "bad word") {
+        socket.emit("dirtyReply");
+      } else if (censor(content) === "general negativity") {
+        socket.emit("negativeReply");
+      } else if (censor(content) === "section of high negativity") {
+        socket.emit("negativeReply");
+      } else if (censor(content) === "all good") {
 
+        Thread.findById(threadid, function(err, thread) {
+          if (err) {
+            console.log("Could not identify thread to post reply for", err)
+          } else if (!thread) {
+            console.log("Invalid thread id")
+          } else {
+            new Message({
+              sender: data.user._id,
+              receiver: thread.participant2,
+              content: content,
+              createdAt: new Date(),
+              read: false
+            }).save(function(err, message) {
+              thread.replies.push(message)
+              socket.emit('newReply', message)
+            })
+          }
+        })
+      }
+    });
+  })
   return router
 }
-///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
+  ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
