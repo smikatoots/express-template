@@ -294,7 +294,7 @@
       var recipient = $(".friendpicker option:selected").text().slice(1);
 
 
-      var anon = $('#checkBox').is(":checked");
+      var anon = !($('#checkBox').is(":checked"));
       $('#msgContent').val('')
       $('#recipient').val('')
       $('#checkBox').val('')
