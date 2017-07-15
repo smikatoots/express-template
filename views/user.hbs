@@ -72,6 +72,7 @@
                   </div>
                   <img class="thread-pic" src="./assets/comment.png">
               </div>
+              <div class="reply-container">
               {{#each this.replies}}
                 <div class="reply">
                     <img id="reply-pic" src="./assets/profile.png">
@@ -79,6 +80,7 @@
                     <p>At {{this.createdAt}}</p>
                 </div>
               {{/each}}
+              </div>
               <div class="reply-input">
                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
                 <button id="newReply" type="submit" class="btn">Reply</button>
@@ -146,7 +148,7 @@
     console.log("Thread in : " + thread.firstMessage)
     console.log("This is it: " + thread.firstMessage.content)
     // $('#messages').append(message.content)
-    var newThread = `  <div id="thread" for="`+thread._id+`">
+    var newThread = `  <div id="thread" class="`+thread._id+`">
                         <div id="message">
                             <div class="message-row">
                                 <div class="message-row-row">
@@ -161,7 +163,7 @@
                                 </div>
                                 <img class="thread-pic" src="./assets/comment.png">
                             </div>
-                            <div class="reply-container">
+                            <div class="reply-container id=`+thread._id+`">
                             </div>
                             <div class="reply-input">
                               <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -181,14 +183,19 @@
 
   // Receive emits from routes.js when new REPLY is posted
   socket.on('newReply', function(data) {
-    var {thread, content} = data
+      console.log(data);
+    var reply = data.reply;
+    var thread = data.thread;
     // add message to message thread body
-    console.log("content: " + content);
-    console.log("thread._id: " + thread._id)
+    console.log("CONTENT: " + reply.content);
+    console.log("T._id: " + thread._id)
     var newReply = `<div class="reply">
-                      <p>`+content+`</p>
+                        <img id="reply-pic" src="./assets/profile.png">
+                        <p>{{#if you}}You{{else}}@{{this.sender}}{{/if}} said {{this.content}}</p><br>
+                        <p>${reply.content}</p>
                     </div>`
-    $("div[for='"+thread._id+"'] #message .reply-container").prepend(newReply);
+    // $(".sentBlock").attr('for', `${thread._id}`).find('.reply-container').prepend(newReply);
+    $(`.reply-container`).prepend(newReply);
   })
   socket.on('negativeReply', function() {
 

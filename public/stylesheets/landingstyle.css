@@ -24,15 +24,6 @@ body {
 
 }
 
-@-webkit-keyframes rotate {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
 .loginButton {
   flex: right;
   background-color: #93DCE3;
@@ -110,10 +101,19 @@ h2 {
 }
 
 .cloud:hover {
- animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+ animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both infinite;
  transform: translate3d(0, 0, 0);
  backface-visibility: hidden;
  perspective: 1000px;
+}
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes shake {
