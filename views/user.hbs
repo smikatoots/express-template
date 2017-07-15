@@ -164,8 +164,8 @@
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
-    // $('#messages').append(message.content)
     if (thread.anonymousSender) {
+      console.log(thread.participant1.picture)
       var newThread = `  <div id="thread" for="`+thread._id+`">
                           <div id="message">
                               <div class="message-row">
@@ -181,7 +181,7 @@
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -205,7 +205,7 @@
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -237,7 +237,7 @@ console.log("negativeMessage, add some positivity, friend!");
                               <div class="message-row">
                                   <div class="message-row-row">
                                       <div>
-                                          <img id="message-pic" src="./assets/profile.png">
+                                          <img id="message-pic" src="` + thread.participant1.picture + `">
                                       </div>
                                       <div class="first-contents">
                                           <div class="first-message">`+thread.firstMessage.content+`</div>
@@ -247,7 +247,7 @@ console.log("negativeMessage, add some positivity, friend!");
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -261,7 +261,7 @@ console.log("negativeMessage, add some positivity, friend!");
                               <div class="message-row">
                                   <div class="message-row-row">
                                       <div>
-                                          <img id="message-pic" src="./assets/profile.png">
+                                          <img id="message-pic" src="` + thread.participant1.picture  + `">
                                       </div>
                                       <div class="first-contents">
                                           <div class="first-message">`+thread.firstMessage.content+`</div>
@@ -271,7 +271,7 @@ console.log("negativeMessage, add some positivity, friend!");
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -285,9 +285,10 @@ console.log("negativeMessage, add some positivity, friend!");
 
 
 
+
   // Receive emits from routes.js when new REPLY is posted
   socket.on('newReply', function(data) {
-      console.log(data);
+
     var reply = data.reply;
     var thread = data.thread;
     // add message to message thread body
@@ -300,8 +301,8 @@ console.log("negativeMessage, add some positivity, friend!");
                       <p>`+ content+`</p>
                     </div>`
     // $(".sentBlock").attr('for', `${thread._id}`).find('.reply-container').prepend(newReply);
-    $(`.reply-container`).prepend(newReply);
 
+    $(`.${thread._id}`).append(newReply);
   })
   socket.on('negativeReply', function() {
     alert("Be more positive!")
@@ -348,11 +349,15 @@ console.log("negativeMessage, add some positivity, friend!");
     $('#receiveBtn').click(function() {
       $('.receivedBlock').show();
       $('.sentBlock').hide();
+      $('toggle-sent').css('background-color', '#FFCD66');
+      $('toggle-received').css('background-color', 'transparent');
     })
 
     $('#sendBtn').click(function() {
       $('.receivedBlock').hide();
       $('.sentBlock').show();
+      $('toggle-received').css('background-color', '#FFCD66').css('color', 'white');
+      $('toggle-sent').css('background-color', 'transparent').css('color', 'lightgrey');
     })
 
   })
