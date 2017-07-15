@@ -3,9 +3,9 @@ var filter = new Filter({ placeHolder: '~'});
 filter.addWords(['ugly', 'gross']);
 var sentiment = require('sentiment')
 
-var User = ('./models.js').User
+var User = require('./models').User
 
-module.export = function (text, userid) {
+module.exports = function (text, userid) {
   User.update({_id: userid}, {$inc: {postivityScore: sentiment(text).comparitives}}, function(err) {
     if (err) {
       console.log(err)

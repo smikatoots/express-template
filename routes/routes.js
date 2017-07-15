@@ -31,18 +31,23 @@ module.exports = function(io) {
 
   // home page with threads
   router.get('/user', function(req, res) {
-    var threads = [];
-    threads.push(Thread.find({participant2: req.user._id}).populate("participant1"));
-    threads.push(Thread.find({participant1: req.user._id}).populate("participant2"));
-    console.log("hi")
-    console.log("pic" + req.user.picture)
-    Promise.all(threads)
-    .then(function(threads) {
-      res.render('user', {
-        user: req.user,
-        received: threads[0],
-        sent: threads[1]
-      });
+    User.find().then(function(allUsers) {
+      var threads = [];
+      threads.push(Thread.find({participant2: req.user._id}).populate("participant1"));
+      threads.push(Thread.find({participant1: req.user._id}).populate("participant2"));
+      console.log("hi")
+      console.log("pic" + req.user.picture)
+      Promise.all(threads)
+      .then(function(threads) {
+        res.render('user', {
+          user: req.user,
+          received: threads[0],
+          sent: threads[1],
+          friends: allUsers
+        });
+      })
+    }).catch(function(err) {
+      console.log(err)
     })
   });
 
