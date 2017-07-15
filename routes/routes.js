@@ -52,6 +52,7 @@ module.exports = function(io) {
     });
   })
 
+
   io.on('connection', function(socket) {
 
     socket.on('newMessage', function(data) {
@@ -62,6 +63,9 @@ module.exports = function(io) {
           socket.emit('badUser', data.receiver)
         } else {
           var friendid = user._id
+          // create namespace for reciever
+          var nsp = io.of('/'+friendid);
+          // ---------------------------
           var content = data.content;
           var createdAt = new Date();
           var anonymousSender = data.anon
@@ -94,8 +98,13 @@ module.exports = function(io) {
                     console.log("Error while creating thread", err)
                   } else {
                     // emit new message event
-                    Thread.findById(thread._id).populate("participant2").populate('firstMessage').exec(function(err, populatedThread) {
+                    Thread.findById(thread._id)
+                    .populate("participant2")
+                    .populate('participant1')
+                    .populate('firstMessage')
+                    .exec(function(err, populatedThread) {
                       socket.emit('newMessage', populatedThread)
+                      nsp.emit('newReceivedMessage', populatedThread)
                     })
                   }
                 })
