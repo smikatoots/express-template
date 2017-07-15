@@ -161,35 +161,116 @@
 
 <script>
   var socket = io('localhost:3000');
-
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
-    var newThread = `  <div id="thread" for="`+thread._id+`">
-                        <div id="message">
-                            <div class="message-row">
-                                <div class="message-row-row">
-                                    <div>
-                                        <img id="message-pic" src="`+ thread.participant1.picture +`">
-                                    </div>
-                                    <div class="first-contents">
-                                        <div class="first-message">`+thread.firstMessage.content+`</div>
+    // $('#messages').append(message.content)
+    if (thread.anonymousSender) {
+      var newThread = `  <div id="thread" for="`+thread._id+`">
+                          <div id="message">
+                              <div class="message-row">
+                                  <div class="message-row-row">
+                                      <div>
+                                      <img id="message-pic" src="`+ thread.participant1.picture +`">
+                                      </div>
+                                      <div class="first-contents">
+                                          <div class="first-message">`+thread.firstMessage.content+`</div>
 
-                                          <div class="first-from">Sent to `+thread.participant2.firstName+` anonymously at `+thread.firstMessage.createdAt+`.</div>
-                                    </div>
-                                </div>
-                                <img class="thread-pic" src="./assets/comment.png">
-                            </div>
-                            <div class="reply-container">
-                            </div>
-                            <div class="reply-input">
-                              <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
-                              <button id="newReply" type="submit" class="btn">Reply</button>
-                            </div>
-                        </div>
-                    </div>`
+                                            <div class="first-from">Sent to `+thread.participant2.firstName+` anonymously at `+thread.firstMessage.createdAt+`.</div>
+                                      </div>
+                                  </div>
+                                  <img class="thread-pic" src="./assets/comment.png">
+                              </div>
+                              <div class="reply-container">
+                              </div>
+                              <div class="reply-input">
+                                <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+                                <button id="newReply" type="submit" class="btn">Reply</button>
+                              </div>
+                          </div>
+                      </div>`
+    } else {
+      var newThread = `  <div id="thread" for="`+thread._id+`">
+                          <div id="message">
+                              <div class="message-row">
+                                  <div class="message-row-row">
+                                      <div>
+                                      <img id="message-pic" src="`+ thread.participant1.picture +`">
+                                      </div>
+                                      <div class="first-contents">
+                                          <div class="first-message">`+thread.firstMessage.content+`</div>
+
+                                            <div class="first-from">Sent to `+thread.participant2.firstName+` at `+thread.firstMessage.createdAt+`.</div>
+                                      </div>
+                                  </div>
+                                  <img class="thread-pic" src="./assets/comment.png">
+                              </div>
+                              <div class="reply-container">
+                              </div>
+                              <div class="reply-input">
+                                <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+                                <button id="newReply" type="submit" class="btn">Reply</button>
+                              </div>
+                          </div>
+                      </div>`
+    }
     $('.sentBlock').prepend(newThread);
   })
+
+  socket.on('newReceivedMessage', function(thread) {
+    console.log('receiving message!!!')
+    if (thread.anonymousSender) {
+      var newThread = `  <div id="thread" for="`+thread._id+`">
+                          <div id="message">
+                              <div class="message-row">
+                                  <div class="message-row-row">
+                                      <div>
+                                          <img id="message-pic" src="./assets/profile.png">
+                                      </div>
+                                      <div class="first-contents">
+                                          <div class="first-message">`+thread.firstMessage.content+`</div>
+
+                                            <div class="first-from">Sent anonymously at `+thread.firstMessage.createdAt+`.</div>
+                                      </div>
+                                  </div>
+                                  <img class="thread-pic" src="./assets/comment.png">
+                              </div>
+                              <div class="reply-container">
+                              </div>
+                              <div class="reply-input">
+                                <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+                                <button id="newReply" type="submit" class="btn">Reply</button>
+                              </div>
+                          </div>
+                      </div>`
+    } else {
+      var newThread = `  <div id="thread" for="`+thread._id+`">
+                          <div id="message">
+                              <div class="message-row">
+                                  <div class="message-row-row">
+                                      <div>
+                                          <img id="message-pic" src="./assets/profile.png">
+                                      </div>
+                                      <div class="first-contents">
+                                          <div class="first-message">`+thread.firstMessage.content+`</div>
+
+                                            <div class="first-from">Sent to you by `+thread.participant1.firstName+` at `+thread.firstMessage.createdAt+`.</div>
+                                      </div>
+                                  </div>
+                                  <img class="thread-pic" src="./assets/comment.png">
+                              </div>
+                              <div class="reply-container">
+                              </div>
+                              <div class="reply-input">
+                                <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+                                <button id="newReply" type="submit" class="btn">Reply</button>
+                              </div>
+                          </div>
+                      </div>`
+    }
+    $('.receivedBlock').prepend(newThread);
+  })
+
   socket.on('negativeMessage', function() {
 
 
@@ -208,7 +289,6 @@
                       <p>`+ content+`</p>
                     </div>`
     $("div[for='"+data._id+"'] #message .reply-container").prepend(newReply);
-    console.log("DOne")
   })
   socket.on('negativeReply', function() {
 
@@ -230,7 +310,7 @@
       var recipient = $(".friendpicker option:selected").text().slice(1);
 
 
-      var anon = $('#checkBox').is(":checked");
+      var anon = !($('#checkBox').is(":checked"));
       $('#msgContent').val('')
       $('#recipient').val('')
       $('#checkBox').val('')
