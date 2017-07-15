@@ -117,7 +117,8 @@
     event.preventDefault();
     var bodyMsg = $('#msgContent').val();
     // to is username of recipient
-    var recipient = $(".friendpicker option").is(":selected")).text().slice(1);
+    var recipient = $(".friendpicker option:selected").text().slice(1);
+    console.log(recipient);
     var anon = $('#anon').is(":checked");
     $('#msgContent').val('')
     $('#recipient').val('')
