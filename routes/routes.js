@@ -36,6 +36,7 @@ module.exports = function(io) {
       threads.push(Thread.find({participant2: req.user._id}).populate("participant1").populate("participant2").populate("firstMessage"))
       threads.push(Thread.find({participant1: req.user._id}).populate("participant2").populate("participant1").populate("firstMessage"))
 
+
       // User.populate()
       Promise.all(threads)
       .then(function(threads) {
@@ -135,8 +136,10 @@ module.exports = function(io) {
                 else {
                     if (thread.participant1 === replySenderId) {
                         var replyReceiverId = thread.participant2;
+                        var you = true;
                     } else {
                         var replyReceiverId = thread.participant1;
+                        var you = false;
                     }
                     User.findById(replyReceiverId, function(err, replyReceiver) {
                       var reply = {
@@ -146,10 +149,8 @@ module.exports = function(io) {
                           picture: replySender.picture,
                           createdAt: new Date(),
                           anon: thread.anonymousSender,
-                          you: data.user === replySenderId
+                          you: you
                       }
-
-                      console.log("thread", thread)
 
                       Thread.update({_id: thread._id}, {$push:{replies: reply}}, function(err, update) {
                           if (err) {
@@ -162,47 +163,6 @@ module.exports = function(io) {
                     })
                 }
             })
-
-            // User.findById(thread.participant2, function(err, receiver) {
-            //   console.log("name1: " + user.username)
-            //   if (err) {
-            //     res.send(err)
-            //   } else {
-            //     var receiver = receiver.username
-            //
-            //     User.findById(thread.participant1, function(err, sender) {
-            //       if (err) {
-            //         res.send(err)
-            //       } else {
-            //         var sender = sender.username
-            //
-            //         console.log(sender._id)
-            //         console.log(data.user)
-            //         if (user._id === data.user) {
-            //           var you = true;
-            //         } else {
-            //           var you = false
-            //         }
-            //         var reply = {
-            //           sender: sender,
-            //           receiver: receiver,
-            //           content: content,
-            //           createdAt: new Date(),
-            //           you: you
-            //         }
-            //
-            //         Thread.update({_id: thread._id}, {$push:{replies: reply}}, function(err, update) {
-            //           if (err) {
-            //             res.send(err)
-            //           } else {
-            //               console.log(update.replies);
-            //             socket.emit('newReply', thread)
-            //           }
-            //         })
-            //       }
-            //     })
-            //   }
-            // })
           }
         })
       }
