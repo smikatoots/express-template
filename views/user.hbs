@@ -87,7 +87,6 @@
                       <img id="reply-pic" src="{{this.picture}}">
                     {{else}}
                       <img id="reply-pic" src="/assets/profile.png"></img>
-                      HI
                     {{/if}}
                   {{/if}}
                     <p>{{this.content}}</p><br>
@@ -96,7 +95,7 @@
             </div>
               <div class="reply-input">
                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
-                <button id="newReply" type="submit" class="reply-input btn">Reply</button>
+                <button id="newReply" type="submit" class="btn">Reply</button>
               </div>
           </div>
       </div>
@@ -114,7 +113,7 @@
                       <div class="first-contents">
                         <div class="first-message">{{firstMessage.content}}</div>
                         {{#if anonymousSender}}
-                          <div class="first-from">Sent anonymously at {{firstMessage.createdAt}}.</div>
+                          <div class="first-from">Sent to {{participant2.firstName}} anonymously at {{firstMessage.createdAt}}.</div>
                         {{else}}
                           <div class="first-from">Sent by {{participant1.firstName}} {{participant1.lastName}}</div>
                         {{/if}}
@@ -135,7 +134,7 @@
                       {{#if you}}
                         <img id="reply-pic" src="{{this.picture}}">
                       {{else}}
-                        <img id="reply-pic" src="../public/assets/profile.png"></img>
+                        <img id="reply-pic" src="./assets/profile.png"></img>
                       {{/if}}
                     {{/if}}
                     <p>{{this.content}}</p><br>
@@ -304,7 +303,16 @@
   $(document).ready(function() {
     $('.receivedBlock').show();
     $('.sentBlock').hide();
+    $('.reply-container').hide()
+    $('.reply-input').hide()
     // When New Message button is pushed
+
+
+    $('.messagebox').on('click', '.thread-pic', function(event) {
+        $(this).parent().parent().children('.reply-container').slideToggle(800);
+        $(this).parent().parent().children('.reply-input').slideToggle(800);
+    })
+
     $('#newMessage').click(function(event) {
       event.preventDefault();
       var bodyMsg = $('#msgContent').val();
