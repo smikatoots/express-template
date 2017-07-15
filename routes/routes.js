@@ -152,6 +152,7 @@ module.exports = function(io) {
                           if (err) {
                             res.send(err)
                           } else {
+                            console.log('thread._id being sent to front-end: ' + thread._id)
                             socket.emit('newReply', {reply: reply, thread: thread})
                           }
                         })
