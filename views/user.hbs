@@ -1,52 +1,81 @@
+<head>
+    <link rel='stylesheet' href='/stylesheets/users.css' />
+</head>
 
-<div class="userbox" style="width: 33%; background-color: gray; padding: 5px">
-  <center>
-    <form style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
-    <h3>Send an anonymous message!</h3>
+<div id="all">
+
+<div class="userbox">
+    <div class="profile">
+        <img src="./assets/profile.png" class="profile-pic">
+        <div class="profile-contents">
+            <div class="profile-name">Mika Reyes</div>
+            <div>@smikatoots</div>
+            <div>This is my bio.</div>
+        </div>
+    </div>
+</br>
+    <form>
       <div class="form-group">
         <label>Who do you want to complement?</label>
-        <input id="recipient" name="recipient" class="form-control" placeholder="Pick a friend...">
+        <!-- <input id="recipient" name="recipient" class="form-control" placeholder="Pick a friend..."> -->
+        <div class="bs-docs-example no-code">
+          <select class="selectpicker" data-live-search="true">
+            <option>Hot Dog, Fries and a Soda</option>
+            <option>Burger, Shake and a Smile</option>
+            <option>Sugar, Spice and all things nice</option>
+          </select>
+        </div>
       </div>
       <div class="form-group">
         <label>What do you want to say?</label>
         <textarea id="msgContent" name="content" class="form-control" placeholder="Send them a message to make them smile :)"></textarea>
       </div>
       <div class="form-group">
-        <label>Reveal your identity</label>
-        <input id="checkBox" type="checkbox">
+          <input id="checkBox" type="checkbox"> &nbsp;
+         <label>Reveal your Identity?</label>
       </div>
       <div class="form-group">
-        <button id="newMessage" type="submit" class="btn btn-info">Send a message</button>
+        <button id="newMessage" type="submit" class="btn">Send a message</button>
       </div>
     </form>
 
     <form class="form-group" method="get" action="/contacts/new">
-      <button type="submit" class="btn btn-success">Find a new friend</button>
+      <button type="submit" class="btn">Find a new friend</button>
     </form>
-
-  </center>
 </div>
 
-<br>
+<div class="messagebox">
+    <div class="toggle">
+      <button type="submit" class="btn">View Sent</button>
+      <button type="submit" class="btn">View Received</button>
+  </div>
+    <div id="thread">
+        <div id="message">
+            <div class="message-row">
+                <div class="message-row-row">
+                    <div>
+                        <img id="message-pic" src="./assets/profile.png">
+                    </div>
+                    <div class="first-contents">
+                        <div class="first-message">This is a positive message placeholder. Lol.</div>
+                        <div class="first-from">"Sent anonymously."</div>
+                    </div>
+                </div>
+                <img class="thread-pic" src="./assets/comment.png">
+            </div>
+            <div class="reply-input">
+              <textarea id="msgContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
+              <button id="newReply" type="submit" class="btn">Reply</button>
+            </div>
+            <div class="reply">This is a reply to a message.</div>
+        </div>
+    </div>
 
-<div class="messagebox" style="width: 66%; background-color: gray; padding: 5px">
-  <center>
-    <h3>Message Threads</h3>
-    <form class="form-group">
-      <button type="submit" class="btn btn-primary">View Sent</button>
-      <button type="submit" class="btn btn-primary">View Received</button>
-    </form>
-    <div id="#messages" style="border: 2px solid black; border-radius: 5px; padding: 7px; margin: 6px;
-                width: 40%; background-color: rgb(128, 167, 229); text-align: left">
-    </div>
-    <div class="form-group">
-      <textarea id="msgContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
-      <button id="newReply" type="submit" class="btn btn-info">Reply</button>
-    </div>
   </br>
-  </center>
+</div>
 
-  <br>
+
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
