@@ -197,6 +197,7 @@ button:focus {
 .thread-pic {
     height: 30px;
     cursor: pointer;
+    margin-left: 10px;
 }
 
 #newReply {
