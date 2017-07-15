@@ -12,11 +12,16 @@ module.exports = function(passport) {
 
   router.post('/signup', function(req, res) {
     // validation step
+    console.log("auth body: ", req.body);
+    console.log("file: ", req.file);
+
     if (req.body.password!==req.body.passwordRepeat) {
       return res.render('signup', {
         error: "Passwords don't match."
       });
     }
+
+    console.log("HI")
     var u = new models.User({
       username: req.body.username,
       password: req.body.password,
@@ -26,7 +31,7 @@ module.exports = function(passport) {
       email: req.body.email,
       location: req.body.location,
       affiliation: req.body.affiliation,
-      picture: req.body.picture,
+      picture: req.file.path || "",
       bio: req.body.bio,
       friends: [],
       positivityScore: 0
@@ -37,6 +42,7 @@ module.exports = function(passport) {
         res.status(500).redirect('/signup');
         return;
       }
+      console.log("HIIII?")
       console.log(user);
       res.redirect('/login');
     });

@@ -9,6 +9,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var mongoose = require('mongoose');
 var connect = process.env.MONGODB_URI;
+var multer = require('multer');
 
 var REQUIRED_ENV = "SECRET MONGODB_URI".split(" ");
 
@@ -43,6 +44,7 @@ app.set('view engine', 'hbs');
 app.use(logger('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({dest: './public/files'}).single('picture'))
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -67,8 +69,11 @@ passport.deserializeUser(function(id, done) {
 // passport strategy
 passport.use(new LocalStrategy(function(username, password, done) {
   // Find the user with the given username
+  console.log("strategize")
   models.User.findOne({ username: username }, function (err, user) {
     // if there's an error, finish trying to authenticate (auth failed)
+    console.log("in finOne")
+
     if (err) {
       console.error('Error fetching user in LocalStrategy', err);
       return done(err);

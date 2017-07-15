@@ -47,11 +47,12 @@
 
 <div class="messagebox">
     <div class="toggle">
-      <button type="submit" class="toggle-received">Received</button>
-      <button type="submit" class="toggle-sent">Sent</button>
+      <button id="receiveBtn" type="submit" class="toggle-received">Received</button>
+      <button id="sendBtn" type="submit" class="toggle-sent">Sent</button>
     </div>
 
 
+  <div class="receivedBlock">
     {{#each received}}
       <div id="thread" for="{{this._id}}">
           <div id="message">
@@ -74,7 +75,8 @@
               {{#each this.replies}}
                 <div class="reply">
                     <img id="reply-pic" src="./assets/profile.png">
-                    <p>{{this.content}}</p>
+                    <p>{{#if you}}You{{else}}@{{this.receiver}}{{/if}} said {{this.content}}</p><br>
+                    <p>At {{this.createdAt}}</p>
                 </div>
               {{/each}}
               <div class="reply-input">
@@ -84,8 +86,9 @@
           </div>
       </div>
     {{/each}}
+  </div>
 
-
+  <div class="sentBlock">
     {{#each sent}}
       <div id="thread" for="{{this._id}}">
           <div id="message">
@@ -109,10 +112,12 @@
                 {{#each this.replies}}
                   <div class="reply">
                       <img id="reply-pic" src="./assets/profile.png">
+                      <p>{{#if you}}You{{else}}@{{this.sender}}{{/if}} said {{this.content}}</p><br>
                       <p>{{this.content}}</p>
                   </div>
                 {{/each}}
               </div>
+
               <div class="reply-input">
                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
                 <button id="newReply" type="submit" class="btn">Reply</button>
@@ -120,6 +125,7 @@
           </div>
       </div>
     {{/each}}
+  </div>
 
   </br>
 </div>
@@ -190,40 +196,57 @@
 
   })
 
+  $(document).ready(function() {
+    $('.receivedBlock').show();
+    $('.sentBlock').hide();
 
-  // When New Message button is pushed
-  $('#newMessage').click(function(event) {
-    event.preventDefault();
-    var bodyMsg = $('#msgContent').val();
-    // to is username of recipient
+    // When New Message button is pushed
+    $('#newMessage').click(function(event) {
+      event.preventDefault();
+      var bodyMsg = $('#msgContent').val();
+      // to is username of recipient
 
-    var recipient = $(".friendpicker option:selected").text().slice(1);
+      var recipient = $(".friendpicker option:selected").text().slice(1);
 
 
-    var anon = $('#anon').is(":checked");
-    $('#msgContent').val('')
-    $('#recipient').val('')
-    $('#anon').val('')
-    socket.emit('newMessage', {
-      user: "{{user._id}}",
-      content: bodyMsg,
-      receiver: recipient,
-      anon: anon
+      var anon = $('#anon').is(":checked");
+      $('#msgContent').val('')
+      $('#recipient').val('')
+      $('#anon').val('')
+      socket.emit('newMessage', {
+        user: "{{user._id}}",
+        content: bodyMsg,
+        receiver: recipient,
+        anon: anon
+      })
     })
+
+    // When Reply button is pushed; See Leo's spec for more information
+    $('#newReply').click(function() {
+      event.preventDefault();
+      var bodyMsg = $('#replyContent').val();
+      $('#replyContent').val('')
+      var threadid = $(this).parent().parent().parent().attr('for')
+      console.log(threadid)
+      socket.emit('newReply', {
+        user: "{{user._id}}",
+        threadid: threadid,
+        content: bodyMsg
+      })
+    })
+
+    $('#receiveBtn').click(function() {
+      $('.receivedBlock').show();
+      $('.sentBlock').hide();
+    })
+
+    $('#sendBtn').click(function() {
+      $('.receivedBlock').hide();
+      $('.sentBlock').show();
+    })
+
   })
 
-  // When Reply button is pushed; See Leo's spec for more information
-  $('#newReply').click(function() {
-    event.preventDefault();
-    var bodyMsg = $('#replyContent').val();
-    $('#replyContent').val('')
-    var threadid = $(this).parent().parent().parent().attr('for')
-    console.log(threadid)
-    socket.emit('newReply', {
-      user: "{{user._id}}",
-      threadid: threadid,
-      content: bodyMsg
-    })
-  })
+
 
 </script>

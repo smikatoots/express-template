@@ -33,25 +33,10 @@ module.exports = function(io) {
   router.get('/user', function(req, res) {
     User.find().then(function(allUsers) {
       var threads = [];
-      // Thread.find({participant2: req.user._id}).populate("participant1").populate("firstMessage").populate("replies")
-      // .exec(function(err, threads) {
-      //   threads.replies.forEach(function(reply) {
-      //     User.populate(reply, {
-      //       path: 'receiver',
-      //       select: 'name'
-      //     })
-      //   })
-      //   User.populate(threads, {
-      //     path: 'replies'
-      //   })
-      // });
       threads.push(Thread.find({participant2: req.user._id}).populate("participant1").populate("firstMessage"))
-
       threads.push(Thread.find({participant1: req.user._id}).populate("participant2").populate("firstMessage"))
 
       // User.populate()
-      console.log("trash")
-      console.log(threads[0].replies)
       Promise.all(threads)
       .then(function(threads) {
         res.render('user', {
@@ -61,10 +46,11 @@ module.exports = function(io) {
           friends: allUsers,
         });
       })
-    }).catch(function(err) {
-      console.log(err)
-    })
-  });
+      .catch(function(err) {
+        console.log(err)
+      })
+    });
+  })
 
   io.on('connection', function(socket) {
 
@@ -156,11 +142,18 @@ module.exports = function(io) {
                   } else {
                     var sender = user.username
 
+                    if (user._id === data.user) {
+                      var you = true;
+                    } else {
+                      var you = false
+                    }
+                    console.log("YOU: " + you)
                     var reply = {
                       sender: sender,
                       receiver: receive,
                       content: content,
                       createdAt: new Date(),
+                      you: you
                     }
 
                     Thread.update({_id: thread._id}, {$push:{replies: reply}})
@@ -182,6 +175,7 @@ module.exports = function(io) {
       }
     });
   })
+
   return router
 }
   ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
