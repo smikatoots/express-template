@@ -11,10 +11,6 @@ module.exports = function(passport) {
   });
 
   router.post('/signup', function(req, res) {
-    // validation step
-    console.log("auth body: ", req.body);
-    console.log("file: ", req.file);
-
     if (req.body.password!==req.body.passwordRepeat) {
       return res.render('signup', {
         error: "Passwords don't match."
@@ -24,7 +20,7 @@ module.exports = function(passport) {
     if (pic.substring(0,7) === "public\\") {
       req.file.path = req.file.path.substring(7)
     }
-    console.log("HI")
+
     var u = new models.User({
       username: req.body.username,
       password: req.body.password,
