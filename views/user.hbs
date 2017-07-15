@@ -210,6 +210,8 @@
   })
   socket.on('negativeMessage', function() {
       console.log("negativeMessage, add some positivity, friend!");
+      $('.userbox').css('animation', 'wiggle 2s')
+
   })
   socket.on('dirtyMessage', function() {
     console.log("dirty message! :(")
@@ -267,12 +269,7 @@
     }
     $('.receivedBlock').prepend(newThread);
   })
-  socket.on('negativeMessage', function() {
-    alert("Start a happi trend!")
-  })
-  socket.on('dirtyMessage', function() {
-    alert("Don't bring up nasty conversation!")
-  })
+
   // Receive emits from routes.js when new REPLY is posted
   socket.on('newReply', function(data) {
     var reply = data.reply;
@@ -288,12 +285,12 @@
     // $(".sentBlock").attr('for', `${thread._id}`).find('.reply-container').prepend(newReply);
     $(`.${thread._id}`).append(newReply);
   })
-  socket.on('negativeReply', function() {
-    alert("Be more positive!")
-  })
-  socket.on('dirtyReply', function() {
-    alert("That's nasty!")
-  })
+  // socket.on('negativeReply', function() {
+  //   alert("Be more positive!")
+  // })
+  // socket.on('dirtyReply', function() {
+  //   alert("That's nasty!")
+  // })
   $(document).ready(function() {
     $('.receivedBlock').show();
     $('.sentBlock').hide();
