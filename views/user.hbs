@@ -3,7 +3,7 @@
 </head>
 
 <div id="all">
-<div class="userbox">
+<div class="userbox changer">
     <div class="profile">
         <img src="{{user.picture}}" class="profile-pic">
         <div class="profile-contents">
@@ -178,11 +178,14 @@
     $('.sentBlock').prepend(newThread);
   })
   socket.on('negativeMessage', function() {
+console.log("negativeMessage, add some positivity, friend!");
+  // $('.transform').toggleClass('transform-active');
 
+})
 
-  })
   socket.on('dirtyMessage', function() {
-
+    console.log("dirty message! :(")
+    $('.userbox').css('background-color', "#f44242");
   })
 
   // Receive emits from routes.js when new REPLY is posted
