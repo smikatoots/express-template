@@ -164,8 +164,8 @@
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
-    // $('#messages').append(message.content)
     if (thread.anonymousSender) {
+      console.log(thread.participant1.picture)
       var newThread = `  <div id="thread" for="`+thread._id+`">
                           <div id="message">
                               <div class="message-row">
@@ -236,7 +236,7 @@ console.log("negativeMessage, add some positivity, friend!");
                               <div class="message-row">
                                   <div class="message-row-row">
                                       <div>
-                                          <img id="message-pic" src="./assets/profile.png">
+                                          <img id="message-pic" src="` + thread.participant1.picture + `">
                                       </div>
                                       <div class="first-contents">
                                           <div class="first-message">`+thread.firstMessage.content+`</div>
@@ -260,7 +260,7 @@ console.log("negativeMessage, add some positivity, friend!");
                               <div class="message-row">
                                   <div class="message-row-row">
                                       <div>
-                                          <img id="message-pic" src="./assets/profile.png">
+                                          <img id="message-pic" src="` + thread.participant1.picture  + `">
                                       </div>
                                       <div class="first-contents">
                                           <div class="first-message">`+thread.firstMessage.content+`</div>
