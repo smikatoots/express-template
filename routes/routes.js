@@ -41,8 +41,8 @@ module.exports = function(io) {
       .then(function(threads) {
         res.render('user', {
           user: req.user,
-          received: threads[0],
-          sent: threads[1],
+          received: threads[0].reverse(),
+          sent: threads[1].reverse(),
           friends: allUsers,
         });
       })
