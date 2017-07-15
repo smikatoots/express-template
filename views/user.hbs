@@ -207,6 +207,7 @@
                       </div>`
     }
     $('.sentBlock').prepend(newThread);
+    $('#sendBtn').click()
   })
   socket.on('negativeMessage', function() {
       console.log("negativeMessage, add some positivity, friend!");
