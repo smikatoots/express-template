@@ -93,10 +93,10 @@
                     <p>{{this.content}}</p><br>
                 </div>
               {{/each}}
-              </div>
+            </div>
               <div class="reply-input">
                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
-                <button id="newReply" type="submit" class="btn">Reply</button>
+                <button id="newReply" type="submit" class="reply-input btn">Reply</button>
               </div>
           </div>
       </div>
@@ -207,9 +207,12 @@
                       </div>`
     }
     $('.sentBlock').prepend(newThread);
+    $('#sendBtn').click()
   })
   socket.on('negativeMessage', function() {
       console.log("negativeMessage, add some positivity, friend!");
+      $('.userbox').css('animation', 'wiggle 2s')
+
   })
   socket.on('dirtyMessage', function() {
     console.log("dirty message! :(")
@@ -267,12 +270,7 @@
     }
     $('.receivedBlock').prepend(newThread);
   })
-  socket.on('negativeMessage', function() {
-    alert("Start a happi trend!")
-  })
-  socket.on('dirtyMessage', function() {
-    alert("Don't bring up nasty conversation!")
-  })
+
   // Receive emits from routes.js when new REPLY is posted
   socket.on('newReply', function(data) {
     var reply = data.reply;
@@ -289,10 +287,10 @@
     $(`.${thread._id}`).append(newReply);
   })
   socket.on('negativeReply', function() {
-    alert("Be more positive!")
+  $('.reply-input').css('animation', 'wiggle 2s')
   })
   socket.on('dirtyReply', function() {
-    alert("That's nasty!")
+    $('.reply-input').css('animation', 'wiggle 2s')
   })
   $(document).ready(function() {
     $('.receivedBlock').show();
