@@ -164,13 +164,6 @@
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
-    // $('#messages').append(message.content)
-    var pic = thread.participant1.picture
-    if (pic.substring(0,7) === "public\\") {
-      thread.participant1.picture = thread.participant1.picture.substring(7)
-    }
-    console.log("THREAD", thread.participant1.picture);
-
     if (thread.anonymousSender) {
       console.log(thread.participant1.picture)
       var newThread = `  <div id="thread" for="`+thread._id+`">
