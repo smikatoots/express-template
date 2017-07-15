@@ -82,7 +82,6 @@
               {{#each this.replies}}
                 <div class="reply">
                   {{#if anon}}
-                    <img id="reply-pic" src="{{this.picture}}">
                     {{#if you}}
                       <img id="reply-pic" src="{{this.picture}}">
                     {{else}}
@@ -128,14 +127,13 @@
                 {{#each this.replies}}
                   <div class="reply">
                     {{#if anon}}
-                      <img id="reply-pic" src="{{this.picture}}">
                       {{#if you}}
                         <img id="reply-pic" src="{{this.picture}}">
                       {{else}}
                         <i class="em em-smiley"></i>
                       {{/if}}
                     {{else}}
-                      <img id="reply-pic" src="{{this.picture}}">
+                      <img id="reply-pic" src="{{this.picture}}">HI</img>
                     {{/if}}
                     <p>{{this.content}}</p><br>
                   </div>
@@ -272,11 +270,10 @@
   })
 
   socket.on('negativeMessage', function() {
-
-
+    alert("Start a happi trend!")
   })
   socket.on('dirtyMessage', function() {
-
+    alert("Don't bring up nasty conversation!")
   })
 
   // Receive emits from routes.js when new REPLY is posted
@@ -291,10 +288,10 @@
     $("div[for='"+data._id+"'] #message .reply-container").prepend(newReply);
   })
   socket.on('negativeReply', function() {
-
+    alert("Be more positive!")
   })
   socket.on('dirtyReply', function() {
-
+    alert("That's nasty!")
   })
 
   $(document).ready(function() {
@@ -305,11 +302,7 @@
     $('#newMessage').click(function(event) {
       event.preventDefault();
       var bodyMsg = $('#msgContent').val();
-      // to is username of recipient
-
       var recipient = $(".friendpicker option:selected").text().slice(1);
-
-
       var anon = !($('#checkBox').is(":checked"));
       $('#msgContent').val('')
       $('#recipient').val('')
