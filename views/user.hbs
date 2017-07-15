@@ -75,7 +75,8 @@
               {{#each this.replies}}
                 <div class="reply">
                     <img id="reply-pic" src="./assets/profile.png">
-                    <p>{{this.content}}</p>
+                    <p>{{#if you}}You{{else}}@{{this.sender}}{{/if}} said {{this.content}}</p><br>
+                    <p>At {{this.createdAt}}</p>
                 </div>
               {{/each}}
               <div class="reply-input">
@@ -168,7 +169,7 @@
                             </div>
                         </div>
                     </div>`
-    $('.toggle').after(newThread);
+    $('.sentBlock').prepend(newThread);
   })
   socket.on('negativeMessage', function() {
 
@@ -209,10 +210,10 @@
       var recipient = $(".friendpicker option:selected").text().slice(1);
 
 
-      var anon = $('#anon').is(":checked");
+      var anon = $('#checkBox').is(":checked");
       $('#msgContent').val('')
       $('#recipient').val('')
-      $('#anon').val('')
+      $('#checkBox').val('')
       socket.emit('newMessage', {
         user: "{{user._id}}",
         content: bodyMsg,
