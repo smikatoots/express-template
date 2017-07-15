@@ -4,7 +4,7 @@
 </head>
 
 <div id="all">
-<div class="userbox">
+<div class="userbox changer">
     <div class="profile">
         <img src="{{user.picture}}" class="profile-pic">
         <div class="profile-contents">
@@ -79,10 +79,10 @@
                   </div>
                   <img class="thread-pic" src="./assets/comment.png">
               </div>
+              <div class="reply-container">
               {{#each this.replies}}
                 <div class="reply">
                   {{#if anon}}
-                    <img id="reply-pic" src="{{this.picture}}">
                     {{#if you}}
                       <img id="reply-pic" src="{{this.picture}}">
                     {{else}}
@@ -94,6 +94,7 @@
                   <p>{{this.content}}</p><br>
                 </div>
               {{/each}}
+              </div>
               <div class="reply-input">
                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
                 <button id="newReply" type="submit" class="btn">Reply</button>
@@ -128,14 +129,13 @@
                 {{#each this.replies}}
                   <div class="reply">
                     {{#if anon}}
-                      <img id="reply-pic" src="{{this.picture}}">
                       {{#if you}}
                         <img id="reply-pic" src="{{this.picture}}">
                       {{else}}
                         <i class="em em-smiley"></i>
                       {{/if}}
                     {{else}}
-                      <img id="reply-pic" src="{{this.picture}}">
+                      <img id="reply-pic" src="{{this.picture}}">HI</img>
                     {{/if}}
                     <p>{{this.content}}</p><br>
                   </div>
@@ -164,13 +164,17 @@
   // Receive emits from routes.js when new message is posted
   socket.on('newMessage', function(thread) {
     // add message to message thread body
+<<<<<<< HEAD
     // $('#messages').append(message.content)
     var pic = thread.participant1.picture
     if (pic.substring(0,7) === "public\\") {
       thread.participant1.picture = thread.participant1.picture.substring(7)
     }
     console.log("THREAD", thread.participant1.picture);
+=======
+>>>>>>> 019826047b1b8fa108b462f4c107fb4a8f4a5ab7
     if (thread.anonymousSender) {
+      console.log(thread.participant1.picture)
       var newThread = `  <div id="thread" for="`+thread._id+`">
                           <div id="message">
                               <div class="message-row">
@@ -186,7 +190,7 @@
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -210,7 +214,7 @@
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -221,6 +225,17 @@
     }
     $('.sentBlock').prepend(newThread);
   })
+<<<<<<< HEAD
+  socket.on('negativeMessage', function() {
+console.log("negativeMessage, add some positivity, friend!");
+  // $('.transform').toggleClass('transform-active');
+
+})
+
+  socket.on('dirtyMessage', function() {
+    console.log("dirty message! :(")
+    $('.userbox').css('background-color', "#f44242");
+=======
 
   socket.on('newReceivedMessage', function(thread) {
     console.log('receiving message!!!')
@@ -230,7 +245,7 @@
                               <div class="message-row">
                                   <div class="message-row-row">
                                       <div>
-                                          <img id="message-pic" src="./assets/profile.png">
+                                          <img id="message-pic" src="` + thread.participant1.picture + `">
                                       </div>
                                       <div class="first-contents">
                                           <div class="first-message">`+thread.firstMessage.content+`</div>
@@ -240,7 +255,7 @@
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -254,7 +269,7 @@
                               <div class="message-row">
                                   <div class="message-row-row">
                                       <div>
-                                          <img id="message-pic" src="./assets/profile.png">
+                                          <img id="message-pic" src="` + thread.participant1.picture  + `">
                                       </div>
                                       <div class="first-contents">
                                           <div class="first-message">`+thread.firstMessage.content+`</div>
@@ -264,7 +279,7 @@
                                   </div>
                                   <img class="thread-pic" src="./assets/comment.png">
                               </div>
-                              <div class="reply-container">
+                              <div class="reply-container `+thread._id+`">
                               </div>
                               <div class="reply-input">
                                 <textarea id="replyContent" name="content" class="form-control" placeholder="Keep the conversation going :)"></textarea>
@@ -277,29 +292,33 @@
   })
 
   socket.on('negativeMessage', function() {
-
-
+    alert("Start a happi trend!")
   })
   socket.on('dirtyMessage', function() {
-
+    alert("Don't bring up nasty conversation!")
   })
 
   // Receive emits from routes.js when new REPLY is posted
   socket.on('newReply', function(data) {
+    var reply = data.reply;
+    var thread = data.thread;
     // add message to message thread body
+    console.log("CONTENT: " + reply.content);
+    console.log("T._id: " + thread._id)
     var picture = data.reply.picture
     var content = data.reply.content
     var newReply = `<div class="reply">
                       <img id="reply-pic" src="` + picture + `">
                       <p>`+ content+`</p>
                     </div>`
-    $("div[for='"+data._id+"'] #message .reply-container").prepend(newReply);
+    // $(".sentBlock").attr('for', `${thread._id}`).find('.reply-container').prepend(newReply);
+    $(`.${thread._id}`).append(newReply);
   })
   socket.on('negativeReply', function() {
-
+    alert("Be more positive!")
   })
   socket.on('dirtyReply', function() {
-
+    alert("That's nasty!")
   })
 
   $(document).ready(function() {
@@ -310,11 +329,7 @@
     $('#newMessage').click(function(event) {
       event.preventDefault();
       var bodyMsg = $('#msgContent').val();
-      // to is username of recipient
-
       var recipient = $(".friendpicker option:selected").text().slice(1);
-
-
       var anon = !($('#checkBox').is(":checked"));
       $('#msgContent').val('')
       $('#recipient').val('')
@@ -344,11 +359,15 @@
     $('#receiveBtn').click(function() {
       $('.receivedBlock').show();
       $('.sentBlock').hide();
+      $('toggle-sent').css('background-color', '#FFCD66');
+      $('toggle-received').css('background-color', 'transparent');
     })
 
     $('#sendBtn').click(function() {
       $('.receivedBlock').hide();
       $('.sentBlock').show();
+      $('toggle-received').css('background-color', '#FFCD66').css('color', 'white');
+      $('toggle-sent').css('background-color', 'transparent').css('color', 'lightgrey');
     })
 
   })

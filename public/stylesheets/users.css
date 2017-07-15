@@ -36,6 +36,13 @@ body {
     color: #93DCE3;
 }
 
+.changer {
+  background-color: #F5F5F5;
+}
+#changer-active{
+  background-color: #f44242;
+}
+
 .friendpicker {
     width: 100%;
 }

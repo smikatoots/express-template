@@ -158,7 +158,6 @@ module.exports = function(io) {
                 }
             })
 
-            console.log("thread: " + thread)
             // User.findById(thread.participant2, function(err, receiver) {
             //   console.log("name1: " + user.username)
             //   if (err) {

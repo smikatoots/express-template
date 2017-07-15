@@ -24,15 +24,6 @@ body {
 
 }
 
-@-webkit-keyframes rotate {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
 .loginButton {
   flex: right;
   background-color: #93DCE3;
@@ -64,6 +55,7 @@ body {
   height: 100px;
   position: absolute;
   top: 20%;
+  animation: float 6s ease-in-out infinite;
 }
 
 .cloud2{
@@ -71,6 +63,7 @@ body {
   position: absolute;
   left: 60%;
   top: 20%;
+  animation: float 6s ease-in-out infinite;
 }
 
 .cloud3{
@@ -78,6 +71,7 @@ body {
   position: absolute;
   left: 26%;
   top: 13%;
+  animation: float 6s ease-in-out infinite;
 }
 
 .cloud4{
@@ -85,6 +79,7 @@ body {
   position: absolute;
   left: 75%;
   top: 13%;
+  animation: float 6s ease-in-out infinite;
 }
 
 .blue{
@@ -110,10 +105,19 @@ h2 {
 }
 
 .cloud:hover {
- animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+ animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both infinite;
  transform: translate3d(0, 0, 0);
  backface-visibility: hidden;
  perspective: 1000px;
+}
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes shake {
@@ -131,4 +135,20 @@ h2 {
 
  40%, 60% {
    transform: translate3d(4px, 0, 0);
+ }
+ }
+
+ @keyframes float {
+ 	0% {
+ 		/*box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);*/
+ 		transform: translatey(0px);
+ 	}
+ 	50% {
+ 		/*box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);*/
+ 		transform: translatey(-20px);
+ 	}
+ 	100% {
+ 		/*box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);*/
+ 		transform: translatey(0px);
+ 	}
  }
