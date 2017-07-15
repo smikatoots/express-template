@@ -41,7 +41,7 @@ module.exports = function(io) {
           user: req.user,
           received: threads[0],
           sent: threads[1],
-          friends: allUsers
+          friends: allUsers,
         });
       })
     }).catch(function(err) {
@@ -111,7 +111,7 @@ module.exports = function(io) {
       } else if (censor(content) === "section of high negativity") {
         socket.emit("negativeReply");
       } else if (censor(content) === "all good") {
-        console.log("HELLIFSDO?")
+        console.log("id; " + threadid)
         Thread.findById(threadid, function(err, thread) {
           if (err) {
             console.log("Could not identify thread to post reply for", err)
@@ -125,8 +125,13 @@ module.exports = function(io) {
               createdAt: new Date(),
               read: false
             }).save(function(err, message) {
-              thread.replies.push(message)
-              socket.emit('newReply', message)
+              Thread.update({_id: thread._id}, {$push:{replies: message._id}}, function(err, update) {
+                if (err) {
+                  res.send(err)
+                } else {
+                  socket.emit('newReply', thread)
+                }
+              })
             })
           }
         })

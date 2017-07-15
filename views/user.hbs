@@ -53,7 +53,7 @@
 
 
     {{#each received}}
-      <div id="thread">
+      <div id="thread" for="{{this._id}}">
           <div id="message">
               <div class="message-row">
                   <div class="message-row-row">
@@ -63,18 +63,19 @@
                       <div class="first-contents">
                           <div class="first-message">{{firstMessage.content}}</div>
                           {{#if anonymousSender}}
-                            <div class="first-from">Sent anonymously.</div>
-                          {{else}}
                             <div class="first-from">Sent by {{participant1.firstName}} {{participant1.lastName}}</div>
+                          {{else}}
+                            <div class="first-from">Sent anonymously.</div>
                           {{/if}}
                       </div>
                   </div>
                   <img class="thread-pic" src="./assets/comment.png">
               </div>
-              {{#each replies}}
+              {{#each this.replies}}
                 <div class="reply">
                     <img id="reply-pic" src="./assets/profile.png">
                     <p>{{content}}</p>
+                    <p>To {{receiver.firstName}} {{receiver.lastName}}
                 </div>
               {{/each}}
               <div class="reply-input">
@@ -114,7 +115,7 @@
   // Receive emits from routes.js when new REPLY is posted
   socket.on('newReply', function(thread) {
     // add message to message thread body
-    console.log("Replied with " + thread)
+    console.log("Replied with " + thread.firstMessage)
   })
   socket.on('negativeReply', function() {
 
@@ -150,8 +151,11 @@
     event.preventDefault();
     var bodyMsg = $('#replyContent').val();
     $('#replyContent').val('')
+    var threadid = $(this).parent().parent().parent().attr('for')
+    console.log(threadid)
     socket.emit('newReply', {
       user: "{{user._id}}",
+      threadid: threadid,
       content: bodyMsg
     })
   })
