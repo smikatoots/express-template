@@ -1,0 +1,110 @@
+body {
+  margin: auto;
+  font: 14px "Open Sans", Helvetica, Arial, sans-serif, 'Oswald';
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  font-family: 'Oswald';
+  background-image: "./assets/bg.png";
+  background-color: #FFCD66;
+}
+
+#all {
+    margin-top: 150px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: top;
+}
+
+#background {
+    position: fixed;
+    z-index: -10;
+}
+
+.userbox, .messagebox {
+    border-radius: 10px;
+    padding: 15px;
+    margin: 5px;
+    background-color: #F5F5F5;
+    font-family: 'Avenir Next Condensed'
+}
+
+.userbox {
+    width: 300px;
+    height: 400px;
+}
+
+.messagebox {
+    width: 800px;
+    height: 100vh;
+}
+
+.profile {
+    display: flex;
+    flex-direction: row;
+    font-family: 'Avenir Next Condensed'
+    color: black;
+}
+
+.profile-contents {
+    margin-left: 20px;
+}
+
+.profile-name {
+    font-size: 25px;
+}
+
+.profile-pic {
+    height: 80px;
+    border-radius: 40px;
+}
+
+button {
+    text-transform: uppercase;
+    border: 0px;
+    background-color:#FFCD66;
+    color: white;
+    font-family: 'Oswald';
+}
+
+.toggle {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#message {
+    background-color: green;
+    padding: 15px;
+    font-size: 20px;
+    border: 0.5px solid lightgrey;
+    border-radius: 10px;
+}
+
+#message-pic {
+    height: 40px;
+    border-radius: 40px;
+}
+
+.message-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.message-row-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.first-contents {
+    margin-left: 20px;
+}
+
+.first-from {
+    color: lightgrey;
+    font-size: 15px;
+}
+
+.thread-pic {
+    height: 40px;
+}
