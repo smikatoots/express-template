@@ -29,6 +29,11 @@ body {
     margin: 5px;
     background-color: #F5F5F5;
     font-family: 'Avenir Next Condensed';
+
+}
+
+.messagebox {
+  overflow: scroll;
 }
 
 .userbox {
