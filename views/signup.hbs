@@ -11,52 +11,57 @@
 {{/if}}
 <!-- LOGIN FORM -->
 <div id="signup-box">
-<form method="POST">
-  <!-- Header -->
+
   <h2>REGISTER</h2>
-  <!-- Form attributes -->
-  <center><div class="form-group">
-    <input id="choosePic" type='file' onchange="readURL(this);"/>
-    <input style="display: none" name="picture" id="picURL" value=""/>
-    <div class="image">
-      <img id="pic" src="#" />
+  <form method="post" action="/signup" enctype="multipart/form-data">
+
+    <input type="file" name="picture"/>
+
+    <div class="form-group">
+      <input placeholder="First Name" type="text" name="firstName" class="form-control">
     </div>
-  </div></center>
-  <div class="form-group">
-    <input placeholder="First Name" type="text" name="firstName" class="form-control">
-  </div>
-  <div class="form-group">
-    <input placeholder="Last Name" type="text" name="lastName" class="form-control">
-  </div>
-  <div class="form-group">
-    <input placeholder="Username" type="text" name="username" class="form-control">
-  </div>
-  <div class="form-group">
-    <input placeholder="Password" type="password" name="password" class="form-control">
-  </div>
-  <div class="form-group">
-    <input placeholder="Verify password" type="password" name="passwordRepeat" class="form-control">
-  </div>
-  <div class="form-group">
-    <input placeholder="Birthday" type="date" name="birthday" class="form-control">
-  </div>
-  <div class="form-group">
-    <input placeholder="Email Address" type="email" name="email" class="form-control">
-  </div>
-  <div class="form-group">
-    <input placeholder="City" type="text" name="location" class="form-control">
-  </div>
-  <div class="form-group">
-    <input placeholder="School & Company" type="text" name="affiliation" class="form-control">
-  </div>
-  <div class="form-group">
-    <textarea placeholder="User Bio" name="bio" class="form-control"></textarea>
-  </div>
-  <div class="form-group">
-    <button class="btn signup-button">Register</button></br></br>
-  </div>
-  <a href="/">Learn more. </a>
-</form>
+
+    <div class="form-group">
+      <input placeholder="Last Name" type="text" name="lastName" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <input placeholder="Username" type="text" name="username" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <input placeholder="Password" type="password" name="password" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <input placeholder="Verify password" type="password" name="passwordRepeat" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <input placeholder="Birthday" type="date" name="birthday" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <input placeholder="Email Address" type="email" name="email" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <input placeholder="City" type="text" name="location" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <input placeholder="School & Company" type="text" name="affiliation" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <textarea placeholder="User Bio" name="bio" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+      <button class="btn signup-button">Register</button></br></br>
+    </div>
+    <a href="/">Learn more. </a>
+  </form>
 </div>
 
 

@@ -74,7 +74,8 @@
               {{#each this.replies}}
                 <div class="reply">
                     <img id="reply-pic" src="./assets/profile.png">
-                    <p>{{this.content}}</p>
+                    <p>{{#if you}}You{{else}}@{{this.receiver}}{{/if}} said {{this.content}}</p><br>
+                    <p>At {{this.createdAt}}</p>
                 </div>
               {{/each}}
               <div class="reply-input">
@@ -108,7 +109,8 @@
               {{#each this.replies}}
                 <div class="reply">
                     <img id="reply-pic" src="./assets/profile.png">
-                    <p>{{this.content}}</p>
+                    <p>{{#if you}}You{{else}}@{{this.sender}}{{/if}} said {{this.content}}</p><br>
+                    <p>At {{this.createdAt}}</p>
                 </div>
               {{/each}}
               <div class="reply-input">
