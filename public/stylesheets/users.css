@@ -91,9 +91,7 @@ button:focus {
     padding: 10px 20px 10px 20px;
 }
 
-.toggle-sent:hover, .toggle-received:hover {
-    color: white;
-}
+
 
 .toggle-sent {
     background-color: transparent;
@@ -110,8 +108,13 @@ button:focus {
     border-radius: 25px;
 }
 
+#receiveBtn:hover, #sendBtn:hover {
+    color: white;
+}
+
 .toggle:hover {
     background-color: lightgrey;
+    color: white;
 }
 
 

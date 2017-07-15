@@ -216,17 +216,16 @@
     }
     $('.sentBlock').prepend(newThread);
   })
-<<<<<<< HEAD
   socket.on('negativeMessage', function() {
 console.log("negativeMessage, add some positivity, friend!");
-  // $('.transform').toggleClass('transform-active');
+  $('.transform').toggleClass('transform-active');
 
 })
 
   socket.on('dirtyMessage', function() {
     console.log("dirty message! :(")
     $('.userbox').css('background-color', "#f44242");
-=======
+    })
 
   socket.on('newReceivedMessage', function(thread) {
     console.log('receiving message!!!')
@@ -350,19 +349,18 @@ console.log("negativeMessage, add some positivity, friend!");
     $('#receiveBtn').click(function() {
       $('.receivedBlock').show();
       $('.sentBlock').hide();
-      $('toggle-sent').css('background-color', '#FFCD66');
-      $('toggle-received').css('background-color', 'transparent');
+      $('.toggle-received').css('background-color', '#FFCD66').css('color', 'white');
+      $('.toggle-sent').css('background-color', 'transparent').css('color', 'lightgrey');
+
     })
 
     $('#sendBtn').click(function() {
       $('.receivedBlock').hide();
       $('.sentBlock').show();
-      $('toggle-received').css('background-color', '#FFCD66').css('color', 'white');
-      $('toggle-sent').css('background-color', 'transparent').css('color', 'lightgrey');
+      $('.toggle-sent').css('background-color', '#FFCD66').css('color', 'white');
+      $('.toggle-received').css('background-color', 'transparent').css('color', 'lightgrey');
     })
 
   })
-
-
 
 </script>
