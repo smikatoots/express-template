@@ -209,10 +209,10 @@
       var recipient = $(".friendpicker option:selected").text().slice(1);
 
 
-      var anon = $('#anon').is(":checked");
+      var anon = $('#checkBox').is(":checked");
       $('#msgContent').val('')
       $('#recipient').val('')
-      $('#anon').val('')
+      $('#checkBox').val('')
       socket.emit('newMessage', {
         user: "{{user._id}}",
         content: bodyMsg,
