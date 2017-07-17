@@ -63,8 +63,14 @@ passport.serializeUser(function(user, done) {
   done(null, user._id);
 });
 
+// passport.deserializeUser(function(id, done) {
+//   models.User.findById(id, done);
+// });
+
 passport.deserializeUser(function(id, done) {
-  models.User.findById(id, done);
+  models.User.findById(id).exec(function(err, user) {
+    done(err, user)
+  });
 });
 
 // passport strategy
@@ -73,19 +79,19 @@ passport.use(new LocalStrategy(function(username, password, done) {
   console.log("strategize")
   models.User.findOne({ username: username }, function (err, user) {
     // if there's an error, finish trying to authenticate (auth failed)
-    console.log("in finOne")
-
     if (err) {
       console.error('Error fetching user in LocalStrategy', err);
       return done(err);
     }
     // if no user present, auth failed
     if (!user) {
-      return done(null, false, { message: 'Incorrect username.' });
+      // return done(null, false, { message: 'Incorrect username.' });
+      return done(null, false);
     }
     // if passwords do not match, auth failed
     if (user.password !== password) {
-      return done(null, false, { message: 'Incorrect password.' });
+      // return done(null, false, { message: 'Incorrect password.' });
+      return done(null, false);
     }
     // auth has has succeeded
     return done(null, user);

@@ -40,6 +40,7 @@ module.exports = function(io) {
       // User.populate()
       Promise.all(threads)
       .then(function(threads) {
+        console.log("req.user: " + req.user)
         res.render('user', {
           user: req.user,
           received: threads[0].reverse(),
@@ -118,9 +119,9 @@ module.exports = function(io) {
       var content = data.content; // getting reply content
       var replySenderId = data.user;
       if (censor(content) === "bad word") {
-        socket.emit("dirtyReply");
+        socket.emit("dirtyReply", threadid);
       } else if (censor(content) === "general negativity") {
-        socket.emit("negativeReply");
+        socket.emit("negativeReply", threadid);
       } else if (censor(content) === "section of high negativity") {
         socket.emit("negativeReply");
       } else if (censor(content) === "all good") {
